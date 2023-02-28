@@ -6,4 +6,4 @@ app = Flask(__name__)
 
 @app.route("/")
 def home():
-    return "Hello, Flask! This is the first file in this project!"
+    return render_template('layout.html')
