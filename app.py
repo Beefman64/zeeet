@@ -3,11 +3,11 @@ from flask import Flask, render_template
 app = Flask(__name__)
 
 
-@app.route("/")
+@app.route("/gamePage")
 def home():
     return render_template('homepage.html')
 
-@app.route('/menu')
+@app.route('/')
 def game_menu():
     # return HTML and CSS for game menu
     #return '<h1>Welcome to my game menu!</h1>'
