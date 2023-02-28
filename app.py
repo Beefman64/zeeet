@@ -13,6 +13,10 @@ def game_menu():
     #return '<h1>Welcome to my game menu!</h1>'
     return render_template('menu.html')
 
+@app.route('/highscorePage')
+def highscorePage():
+   return 'Scores'
+
 
 
 if __name__ == '__main__':
