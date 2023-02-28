@@ -1,8 +1,10 @@
 {% extends "layout.html" %}
 {% block content %}
   <div class="jumbo">
-    <h2>to Jumper!<h2>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <h2>Welcome to our games home page.<h2>
     <h3>This is the first step in our new game!<h3>
     <h4>next step is to make this look pretty</h4>
   </div>
+  <script src="{{ url_for('static', filename='style.css') }}"></script>
 {% endblock %}
