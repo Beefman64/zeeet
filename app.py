@@ -7,6 +7,11 @@ app = Flask(__name__)
 def home():
     return render_template('homepage.html')
 
+@app.route('/menu')
+def game_menu():
+    # return HTML and CSS for game menu
+    #return '<h1>Welcome to my game menu!</h1>'
+    return render_template('menu.html')
 
 
 
