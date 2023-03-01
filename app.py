@@ -5,7 +5,7 @@ app = Flask(__name__)
 
 @app.route("/gamePage")
 def home():
-    return render_template('homepage.html')
+    return render_template('gamepage.html')
 
 @app.route('/')
 def game_menu():
