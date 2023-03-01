@@ -15,7 +15,7 @@ def game_menu():
 
 @app.route('/highscorePage')
 def highscorePage():
-   return 'Scores'
+   return render_template('scorepage.html')
 
 
 
