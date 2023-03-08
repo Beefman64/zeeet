@@ -3,11 +3,13 @@
   <div class="jumbo">
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <h2>Welcome to our games home page.<h2>
-    <h3>This is the first step in our new game!<h3>
+         <canvas></canvas>
     <h4>next step is to make this look pretty</h4>
   </div>
   <button>
     <a href="http://127.0.0.1:5000">Main Menu</a>
   </button>
-  <script src="{{ url_for('static', filename='style.css') }}"></script>
+  <script
+   type = "text/javascript" src= "{{ url_for('static', filename='index.js') }}"
+   src="{{ url_for('static', filename='style.css') }}"></script>
 {% endblock %}
