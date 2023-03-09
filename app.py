@@ -17,6 +17,9 @@ def game_menu():
 def highscorePage():
    return render_template('scorepage.html')
 
+#@app.route('/volume')
+#def volume():
+#    return render_template('volume.html')
 
 
 if __name__ == '__main__':

@@ -12,4 +12,24 @@
   <script
    type = "text/javascript" src= "{{ url_for('static', filename='index.js') }}"
    src="{{ url_for('static', filename='style.css') }}"></script>
+
+
+
+
+   <div class="audio-container">
+    <audio src="{{ url_for('static', filename='Jumper_theme.mp3') }}" autoplay loop controls="volume"></audio>
+  </div>
+
+
+  <audio id="myAudio" src="{{ url_for('static', filename='jump_sfx.mp3') }}"></audio>
+<script>
+  document.addEventListener('keydown', function(event) {
+    if (event.key === 'w') {
+      var audio = document.getElementById('myAudio');
+      audio.currentTime = 0;
+      audio.play();
+    }
+  });
+</script>
+
 {% endblock %}
