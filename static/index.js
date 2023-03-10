@@ -4,7 +4,11 @@ const canvas = document.querySelector('canvas')
  
 canvas.width = 1024
 canvas.height= 576
+canvas.frameNo=0
 const gravity = 0.5
+
+
+var myScore;
 
 class Player{
     constructor(position){
@@ -40,7 +44,32 @@ const player2 = new Player({
     y:100,
 })
 
+class scoreTimer{    constructor(position){
+    this.position= {
+        x:800,
+        y:0,
+    }
+    this.velocity ={
+        x:0,
+        y:0,
+    }
+    this.height = 100
+    this.width = 250
+    this.score = 0
+}
+draw(){
+ c.fillStyle = 'green'
+ c.fillRect(this.position.x,this.position.y,this.width,this.height)
+}
+update(){
+    this.draw()
+}
+}
 
+const timer = new scoreTimer({
+    x:100,
+    y:100,
+})
 //function updates frame by frame
 function FPS(){
 window.requestAnimationFrame(FPS)    
@@ -48,6 +77,8 @@ c.fillStyle = 'white'
 c.fillRect(0,0,canvas.width,canvas.height)
 player.update()
 player2.update()
+timer.update()
+
 }
 
 FPS()
