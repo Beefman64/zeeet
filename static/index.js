@@ -42,23 +42,12 @@ const player2 = new Player({
 })
 
 class scoreTimer{    constructor(position){
-    this.position= {
-        x:800,
-        y:0,
-    }
-    this.velocity ={
-        x:0,
-        y:0,
-    }
-    this.height = 100
-    this.width = 250
     this.score = 0
-    
 }
 draw(){
     c.fillStyle = 'black'
-    
-    c.fillText('Score: '+ this.score, 800, 250);
+    c.font="25px Georgia";
+    c.fillText('Score: '+ this.score, 880, 25);
 }
 update(){
     this.draw()
