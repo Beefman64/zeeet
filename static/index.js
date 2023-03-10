@@ -4,11 +4,8 @@ const canvas = document.querySelector('canvas')
  
 canvas.width = 1024
 canvas.height= 576
-canvas.frameNo=0
 const gravity = 0.5
 
-
-var myScore;
 
 class Player{
     constructor(position){
@@ -56,13 +53,16 @@ class scoreTimer{    constructor(position){
     this.height = 100
     this.width = 250
     this.score = 0
+    
 }
 draw(){
- c.fillStyle = 'green'
- c.fillRect(this.position.x,this.position.y,this.width,this.height)
+    c.fillStyle = 'black'
+    
+    c.fillText('Score: '+ this.score, 800, 250);
 }
 update(){
     this.draw()
+    this.score += 1;
 }
 }
 
@@ -70,11 +70,16 @@ const timer = new scoreTimer({
     x:100,
     y:100,
 })
+var frameNo = 0
+
+
+FPS.frameNo=0;
 //function updates frame by frame
 function FPS(){
 window.requestAnimationFrame(FPS)    
 c.fillStyle = 'white'
 c.fillRect(0,0,canvas.width,canvas.height)
+timer.frameNo+=1;
 player.update()
 player2.update()
 timer.update()
