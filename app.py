@@ -1,5 +1,5 @@
 import sys 
-from flask import Flask, render_template, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for
 
 app = Flask(__name__)
 
@@ -24,23 +24,17 @@ def highscorePage():
 
 
 
-is_paused = False
 
-@app.route('/pause_game')
-def pause_game():
-    global is_paused
-    is_paused = True
-    return redirect(url_for('pause'))
+@app.route('/pause')
+def pause():
+    return render_template('pause.html')
+@app.route('/resume', methods=['POST'])
+def resume():
+    return "Game resumed successfully"
 
-@app.route('/resume_game')
-def resume_game():
-    global is_paused
-    is_paused = False
-    return redirect(url_for('game'))
-
-@app.route('/quit')
-def quit_game():
-    global is_paused
+#@app.route('/quit')
+#def quit_game():
+#    global is_paused
     
 
 
