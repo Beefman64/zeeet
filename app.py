@@ -38,6 +38,10 @@ def resume_game():
     is_paused = False
     return redirect(url_for('game'))
 
+@app.route('/quit')
+def quit_game():
+    global is_paused
+    
 
 
 
