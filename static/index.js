@@ -13,7 +13,7 @@ class Player{
         this.velocity ={
             x:0,
             y:1,
-        }
+        };
         this.height = 100
     }
 
@@ -26,22 +26,50 @@ class Player{
         this.draw()
         this.position.y += this.velocity.y
         this.position.x += this.velocity.x
-        if(this.position.y + this.height + this.velocity.y< canvas.height) 
-        this.velocity.y +=gravity
-        else(this.velocity.y=0)
+        if (this.position.y + this.height + this.velocity.y < canvas.height) {
+            this.velocity.y += gravity;
+          } else {
+            this.velocity.y = 0;
+          }
+        }
+      }
+
+
+class Platform{
+    constructor(position){
+        this.position = position;
+        this.width = 200;
+        this.height = 20;
+        this.velocity= {
+            x:-5, 
+            y:0
+        };
+    }
+draw(){
+    c.fillStyle = 'yellow';
+    c.fillRect(this.position.x,this.position.y,this.width,this.height)
+    }
+    update(){
+        this.draw();
+        this.position.x += this.velocity.x;
+        if(this.position.x + this.width <0){
+            this.position.x = canvas.width;
+        }
     }
 }
 
 const player = new Player({
-    x:0,
-    y:0,
-})
-const player2 = new Player({
-    x:300,
-    y:100,
-})
+    x: 0,
+    y: 0,
+  });
+  
+  const platform = new Platform({
+    x: canvas.width,
+    y: canvas.height - 150,
+  });
 
-class scoreTimer{    constructor(position){
+class scoreTimer{    
+    constructor(position){
     this.score = 0
 }
 draw(){
@@ -59,7 +87,8 @@ const timer = new scoreTimer({
     x:100,
     y:100,
 })
-var frameNo = 0
+var frameNo = 0 
+
 
 
 FPS.frameNo=0;
@@ -69,24 +98,43 @@ window.requestAnimationFrame(FPS)
 c.fillStyle = 'white'
 c.fillRect(0,0,canvas.width,canvas.height)
 timer.frameNo+=1;
-player.update()
-player2.update()
 timer.update()
+player.update()
+platform.update();
 
+
+if (player.position.x + player.height >= platform.position.x &&
+    player.position.x <= platform.position.x + platform.width &&
+    player.position.y + player.height >= platform.position.y &&
+    player.position.y + player.height <= platform.position.y + platform.height) {
+    player.velocity.y = 0;
+    player.position.y = platform.position.y - player.height;
+  }
 }
 
-FPS()
+FPS();
+/*
+function onPLatform(){
+    if (player.position.x + player.height >= platform.position.x &&
+        player.position.x <= platform.position.x + platform.width &&
+        player.position.y + player.height >= platform.position.y &&
+        player.position.y + player.height <= platform.position.y + platform.height) {
+        player.velocity.y = 0;
+        player.position.y = platform.position.y - player.height;
+    }
+}
+*/
 
 window.addEventListener('keydown', (event) =>{
     switch(event.key){
         case 'd':
-        player.velocity.x = 1
+        player.velocity.x = 5
         break
         case 'a':
-        player.velocity.x = -1
+        player.velocity.x = -5
         break
         case 'w':
         player.velocity.y = -10
          break
     }
-})
+});
