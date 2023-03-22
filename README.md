@@ -28,8 +28,37 @@ This README would normally document whatever steps are necessary to get your app
 * Repo owner or admin
 * Other community or team contact
 
+
 Sprint 1:
 Contributions:
+
+Oscar Laris- "I created the base game, which includes a movable player, a moving platform that the player can stand on, and a psuedo gravity that only affects players.
+
++ task - Implement touch and keyboard controls jum 12
+   jira - https://cs3398s23gorns.atlassian.net/jira/software/projects/JUM/boards/2?selectedIssue=JUM-12
+
+    bitbucket refernce: https://bitbucket.org/cs3398s23gorns/gamedevswe/commits/0e588ab1e40150f23597384ab2e1ecbd24503cce
+
++ task - Get game running on the flask page jum 35
+ jira - https://cs3398s23gorns.atlassian.net/jira/software/projects/JUM/boards/2?selectedIssue=JUM-35
+
+bitbucket refernce: https://bitbucket.org/cs3398s23gorns/gamedevswe/commits/b8e46bcbd7dd8300f1b9ff6b1cd9bc6fdc80372f
+
+This was a fix for Jum 35- refernce 
+    bitbucket refernce: https://bitbucket.org/cs3398s23gorns/gamedevswe/commits/b8e46bcbd7dd8300f1b9ff6b1cd9bc6fdc80372f
+
++ Task incorporate collisons JUM 33:
+ jira- https://cs3398s23gorns.atlassian.net/jira/software/projects/JUM/boards/2?selectedIssue=JUM-33
+
+ bitbucket refernce: https://bitbucket.org/cs3398s23gorns/gamedevswe/commits/20e6f7188a9c9b5646e6f892c52584863bf19fc1
+
++ Task implement user movement
+jira - https://cs3398s23gorns.atlassian.net/jira/software/projects/JUM/boards/2?selectedIssue=JUM-32
+
+bitbucket refrence: https://bitbucket.org/cs3398s23gorns/gamedevswe/commits/20e6f7188a9c9b5646e6f892c52584863bf19fc1
+
+
+
 Waleed Naveed - 
 - Jira Task - Added research for CSS, HTML , and Research.
 	- refernce: https://bitbucket.org/cs3398s23gorns/gamedevswe/branch/JUM-18-research-react-css-and-html
@@ -71,6 +100,13 @@ Jess Stevenson: "created the flask webpage and the orginization of our pages as 
 
 
 Next Steps:
+Oscar Laris- 
++ add enemies and weapons
+  + including collisons and diffrent weapons
+  + potitionally multiple enemies 
++ update code for better readabilty and extension
+
+
 Waleed - Finish adding backgrounds and character, compartmentalize game.
 
 Jess Stevenson: change the score from the frame count to points, which will be a mix if collectibles, enemies killed, and distance traveled.
