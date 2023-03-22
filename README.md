@@ -36,5 +36,17 @@ Waleed Naveed -
 	_ Wasnt able to do other tasks, due to the way the code was written for the base game. 
 	
 	
+Jess Stevenson: "created the flask webpage and the orginization of our pages as well as creating a basic scoring system for the game once added."
+
+    Jira Task: Create a flask webpage to host our game on
+        reference: https://cs3398s23gorns.atlassian.net/jira/software/projects/JUM/boards/2?selectedIssue=JUM-19
+    Jira Task: Create the menu gui for the game
+        reference: https://cs3398s23gorns.atlassian.net/jira/software/projects/JUM/boards/2?selectedIssue=JUM-29
+    Jira Task: Implement scoring system
+        reference: https://cs3398s23gorns.atlassian.net/jira/software/projects/JUM/boards/2?selectedIssue=JUM-9
+
+
 Next Steps:
 Waleed - Finish adding backgrounds and character, compartmentalize game.
+
+Jess Stevenson: change the score from the frame count to points, which will be a mix if collectibles, enemies killed, and distance traveled.
