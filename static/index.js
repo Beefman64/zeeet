@@ -71,6 +71,7 @@ const player = new Player({
 class scoreTimer{    
     constructor(position){
     this.score = 0
+    this.frame = 0
 }
 draw(){
     c.fillStyle = 'black'
@@ -79,7 +80,10 @@ draw(){
 }
 update(){
     this.draw()
-    this.score += 1;
+    this.frame += 1;
+    if (this.frame % 5 == 0){
+        this.score += 1
+    }
 }
 }
 
