@@ -97,7 +97,6 @@ function FPS(){
 window.requestAnimationFrame(FPS)    
 c.fillStyle = 'white'
 c.fillRect(0,0,canvas.width,canvas.height)
-timer.frameNo+=1;
 timer.update()
 player.update()
 platform.update();

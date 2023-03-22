@@ -40,4 +40,4 @@ Jess Stevenson: "created the flask webpage and the orginization of our pages as 
 
 
     Sprint 2:
-Jess Stevenson: ""
+Jess Stevenson: "SQLdatabase, maybe firebase, will decide after some research"
