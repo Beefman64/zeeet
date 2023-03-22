@@ -45,6 +45,9 @@ Jess Stevenson: "created the flask webpage and the orginization of our pages as 
     Jira Task: Implement scoring system
         reference: https://cs3398s23gorns.atlassian.net/jira/software/projects/JUM/boards/2?selectedIssue=JUM-9
         
+    Rertospective:
+        The first few days went very well, but i quickly fell off my amount of time working on the program each day.
+        I plan to better spread out my time with teh project so that i can stay up to date with the rest of my team and get as much done as possible in the sprint.
 
 +Dillon Hughes
 +-Jira Task: HTML5 audio tag
