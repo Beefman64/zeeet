@@ -18,6 +18,22 @@ def highscorePage():
    return render_template('scorepage.html')
 
 
+#@app.route('/volume')
+#def volume():
+#    return render_template('volume.html')
+
+#@app.route('/quit')
+#def quit_game():
+#    global is_paused
+
+@app.route('/pause')
+def pause():
+    return render_template('pause.html')
+
+@app.route('/resume', methods=['POST'])
+def resume():
+    return "Game resumed successfully"
+
 
 if __name__ == '__main__':
   app.run(debug=True)
