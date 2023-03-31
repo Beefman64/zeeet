@@ -1,0 +1,5 @@
+{
+    "dataworkspace.excludedProjects": [
+        "High_Scores/High_Scores.sqlproj"
+    ]
+}
