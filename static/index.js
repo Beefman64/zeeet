@@ -6,6 +6,8 @@ canvas.width = 1024
 canvas.height= 576
 const gravity = 0.5
 
+const sprite = new Image();
+sprite.src = '/Users/oscarlaris/Documents/GitHub/gamedevorginal/image/datboi.png';
 
 class Player{
     constructor(position){
@@ -99,8 +101,8 @@ FPS.frameNo=0;
 //function updates frame by frame
 function FPS(){
 window.requestAnimationFrame(FPS)    
-c.fillStyle = 'white'
-c.fillRect(0,0,canvas.width,canvas.height)
+c.drawImage(image, 0, 0, canvas.width, canvas.height);
+timer.frameNo+=1;
 timer.update()
 player.update()
 platform.update();
@@ -115,7 +117,12 @@ if (player.position.x + player.height >= platform.position.x &&
   }
 }
 
-FPS();
+const image = new Image();
+image.src = '/Users/oscarlaris/Documents/GitHub/gamedevorginal/image/datboi.png.png';
+image.onload = () => {
+  // Call the FPS function after the image is loaded
+  FPS();
+};
 /*
 function onPLatform(){
     if (player.position.x + player.height >= platform.position.x &&
@@ -131,13 +138,16 @@ function onPLatform(){
 window.addEventListener('keydown', (event) =>{
     switch(event.key){
         case 'd':
-        player.velocity.x = 5
+        player.velocity.x = 8
         break
         case 'a':
-        player.velocity.x = -5
+        player.velocity.x = -8
         break
         case 'w':
-        player.velocity.y = -10
+        var audio = document.getElementById('myAudio');
+        audio.currentTime = 0;
+        audio.play();
+        player.velocity.y = -12
          break
     }
 });
