@@ -10,27 +10,41 @@
     <a href="http://127.0.0.1:5000">Main Menu</a>
   </button>
   <script
-   type = "text/javascript" src= "{{ url_for('static', filename='index.js') }}"
-   src="{{ url_for('static', filename='style.css') }}"></script>
+   type="text/javascript" src="{{ url_for('static', filename='index.js') }}"></script>
+  <script type="text/javascript" src="{{ url_for('static', filename='style.css') }}"></script>
+</head>
 
-
-   <div id="game-page">
+<body>
+  <div id="game-page">
     <button id="pause-btn">Pause</button>
   </div>
   
-
-   <div class="audio-container">
+  <div class="audio-container">
     <audio src="{{ url_for('static', filename='Jumper_theme.mp3') }}" autoplay loop controls="volume"></audio>
   </div>
 
   <audio id="myAudio" src="{{ url_for('static', filename='jump_sfx.mp3') }}"></audio>
-<script>
-  document.addEventListener('keydown', function(event) {
-    if (event.key === 'w') {
-      var audio = document.getElementById('myAudio');
-      audio.currentTime = 0;
-      audio.play();
-    }
-  });
+  <script>
+    document.addEventListener('keydown', function(event) {
+      if (event.key === 'w') {
+        var audio = document.getElementById('myAudio');
+        audio.currentTime = 0;
+        audio.play();
+      }
+    });
+
+    $(document).ready(function() {
+      $('#pause-btn').click(function() {
+        $.ajax({
+          url: '/pause',
+          success: function(response) {
+            $('#pause-menu-overlay').html(response).fadeIn();
+          }
+        });
+      });
+    });
   </script>
+  
+  <div id="pause-menu-overlay" style="display: none;"></div>
+</body>
 {% endblock %}
