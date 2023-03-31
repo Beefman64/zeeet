@@ -6,35 +6,86 @@ canvas.width = 1024
 canvas.height= 576
 const gravity = 0.5
 
-const sprite = new Image();
-sprite.src = '/Users/oscarlaris/Documents/GitHub/gamedevorginal/image/datboi.png';
-
-class Player{
-    constructor(position){
-        this.position= position
-        this.velocity ={
-            x:0,
-            y:1,
+class img {
+    constructor({ position, imageSrc }) {
+        this.position = position;
+        this.image = new Image();
+        this.image.src = imageSrc;
+        this.loaded = false;
+        this.image.onload = () => {
+            this.loaded = true;
+            console.log('Image loaded successfully');
         };
-        this.height = 100
     }
 
-    draw(){
-     c.fillStyle = 'red'
-     c.fillRect(this.position.x,this.position.y,100,this.height)
+    draw() {
+        if (!this.loaded) return;
+        c.drawImage(this.image, this.position.x, this.position.y);
     }
 
-    update(){
+    update() {
+        this.draw();
+    }
+}
+
+
+class Player {
+    constructor(position, imageSrc) {
+        this.position = position;
+        this.velocity = {
+            x: 0,
+            y: 1,
+        };
+        this.width = 50;
+        this.height = 50;
+        this.image = new Image();
+        this.image.src = imageSrc;
+        this.loaded = false;
+        this.image.onload = () => {
+            this.loaded = true;
+        };
+    }
+
+    draw() {
+        if (!this.loaded) return;
+        c.drawImage(this.image, this.position.x, this.position.y, this.width, this.height);
+    }
+
+    update() {
         this.draw()
-        this.position.y += this.velocity.y
-        this.position.x += this.velocity.x
+        // updates player velocity
+        this.position.y += this.velocity.y;
+        this.position.x += this.velocity.x;
+        // detects border collisons 
+       /* if (this.position.y + this.height + this.velocity.y < canvas.height) {
+            this.velocity.y += gravity;
+        } else {
+            this.velocity.y = 0;
+        } */
+        if (this.position.x < 0) {
+            this.position.x = 0;
+        }
+        if (this.position.x + this.width > canvas.width) {
+            this.position.x = canvas.width - this.width;
+        }
+        if (this.position.y < 0) {
+            this.position.y = 0;
+            this.velocity.y = 0;
+        }
+        if (this.position.y + this.height > canvas.height) {
+            this.position.y = canvas.height - this.height;
+            this.velocity.y = 0;
+        }
+    
+        // Gravity
         if (this.position.y + this.height + this.velocity.y < canvas.height) {
             this.velocity.y += gravity;
-          } else {
+        } else {
             this.velocity.y = 0;
-          }
         }
-      }
+    }
+}
+
 
 
 class Platform{
@@ -60,10 +111,13 @@ draw(){
     }
 }
 
-const player = new Player({
-    x: 0,
-    y: 0,
-  });
+const player = new Player(
+    {
+        x: 0,
+        y: 0,
+    },
+    'static/image/mando.png' // Replace this with the actual path to your player image
+);
   
   const platform = new Platform({
     x: canvas.width,
@@ -85,8 +139,8 @@ update(){
     this.frame += 1;
     if (this.frame % 5 == 0){
         this.score += 1
+        }
     }
-}
 }
 
 const timer = new scoreTimer({
@@ -95,16 +149,22 @@ const timer = new scoreTimer({
 })
 var frameNo = 0 
 
+const background = new img({
+    position: {
+        x: 0,
+        y: 0,
+    },
+    imageSrc: 'static/image/datboi.png',
+});
 
 
 FPS.frameNo=0;
 //function updates frame by frame
 function FPS(){
-window.requestAnimationFrame(FPS)    
-c.drawImage(image, 0, 0, canvas.width, canvas.height);
-timer.frameNo+=1;
-timer.update()
-player.update()
+c.clearRect(0, 0, canvas.width, canvas.height); 
+background.update();
+timer.update();
+player.update();
 platform.update();
 
 
@@ -115,14 +175,11 @@ if (player.position.x + player.height >= platform.position.x &&
     player.velocity.y = 0;
     player.position.y = platform.position.y - player.height;
   }
+
+window.requestAnimationFrame(FPS)
 }
 
-const image = new Image();
-image.src = '/Users/oscarlaris/Documents/GitHub/gamedevorginal/image/datboi.png.png';
-image.onload = () => {
-  // Call the FPS function after the image is loaded
-  FPS();
-};
+window.requestAnimationFrame(FPS);
 /*
 function onPLatform(){
     if (player.position.x + player.height >= platform.position.x &&
@@ -138,16 +195,13 @@ function onPLatform(){
 window.addEventListener('keydown', (event) =>{
     switch(event.key){
         case 'd':
-        player.velocity.x = 8
+        player.velocity.x = 10
         break
         case 'a':
-        player.velocity.x = -8
+        player.velocity.x = -15
         break
         case 'w':
-        var audio = document.getElementById('myAudio');
-        audio.currentTime = 0;
-        audio.play();
-        player.velocity.y = -12
+        player.velocity.y = -15
          break
     }
 });
