@@ -205,3 +205,27 @@ window.addEventListener('keydown', (event) =>{
          break
     }
 });
+const pauseButton = document.getElementById('pause-button');
+const pauseOverlay = document.getElementById('pause-overlay');
+const resumeButton = document.getElementById('resume-button');
+
+pauseButton.addEventListener('click', function() {
+  // Pause the game
+  cancelAnimationFrame(requestId);
+  // Show the pause overlay
+  pauseOverlay.style.display = 'block';
+});
+
+resumeButton.addEventListener('click', function() {
+  requestId = requestAnimationFrame(FPS);
+  pauseOverlay.style.display = 'none';
+});
+
+// get the restart button element
+const restartButton = document.getElementById("restart-button");
+
+// add an event listener to the restart button
+restartButton.addEventListener("click", function() {
+  // reload the current page
+  location.reload();
+});

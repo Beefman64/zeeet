@@ -15,9 +15,7 @@
 </head>
 
 <body>
-  <div id="game-page">
-    <button id="pause-btn">Pause</button>
-  </div>
+
   
   <div class="audio-container">
     <audio src="{{ url_for('static', filename='Jumper_theme.mp3') }}" autoplay loop controls="volume"></audio>
@@ -32,18 +30,18 @@
         audio.play();
       }
     });
+    </script>
 
-    $(document).ready(function() {
-      $('#pause-btn').click(function() {
-        $.ajax({
-          url: '/pause',
-          success: function(response) {
-            $('#pause-menu-overlay').html(response).fadeIn();
-          }
-        });
-      });
-    });
-  </script>
+<button>
+  <a href="http://127.0.0.1:5000/gamePage">Restart Game</a>
+</button>
+
+<button id="pause-button">Pause</button>
+    <div id="pause-overlay" style="display: none;">
+      <p>Paused</p>
+      <button id="resume-button">Resume</button>
+    </div>
+    <script src="index.js"></script>
   
   <div id="pause-menu-overlay" style="display: none;"></div>
 </body>
