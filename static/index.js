@@ -205,27 +205,44 @@ window.addEventListener('keydown', (event) =>{
          break
     }
 });
-const pauseButton = document.getElementById('pause-button');
-const pauseOverlay = document.getElementById('pause-overlay');
-const resumeButton = document.getElementById('resume-button');
 
-pauseButton.addEventListener('click', function() {
-  // Pause the game
-  cancelAnimationFrame(requestId);
-  // Show the pause overlay
-  pauseOverlay.style.display = 'block';
-});
 
-resumeButton.addEventListener('click', function() {
-  requestId = requestAnimationFrame(FPS);
-  pauseOverlay.style.display = 'none';
-});
-
-// get the restart button element
 const restartButton = document.getElementById("restart-button");
 
-// add an event listener to the restart button
 restartButton.addEventListener("click", function() {
-  // reload the current page
   location.reload();
 });
+
+let timeCounter = 0; // counter to keep track of elapsed time
+let timerInterval; // variable to hold the setInterval reference
+
+function startTimer() {
+  timerInterval = setInterval(() => {
+    timeCounter++;
+    console.log('Time elapsed: ' + timeCounter + ' seconds');
+  }, 1000);
+}
+
+function stopTimer() {
+  clearInterval(timerInterval);
+}
+
+startTimer();
+
+
+
+function pauseGame() {
+    stopTimer();
+    document.getElementById('overlay').style.display = 'block';
+  }
+  
+  function resumeGame() {
+    startTimer();
+    document.getElementById('overlay').style.display = 'none';
+  }
+  
+  document.addEventListener('keydown', (event) => {
+    if (event.code === 'Escape') {
+      pauseGame();
+    }
+  });

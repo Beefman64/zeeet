@@ -50,19 +50,17 @@ body {
     border-radius: 10px 0 0 0;
   }
 
-  #pause-menu-overlay {
+  #overlay {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
     background-color: rgba(0, 0, 0, 0.5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
+    display: none;
+  }
   
-  #pause-box {
+  #pause-menu {
     position: absolute;
     top: 50%;
     left: 50%;
@@ -70,4 +68,8 @@ body {
     background-color: white;
     padding: 20px;
     text-align: center;
+  }
+  
+  #pause-menu button {
+    margin-top: 20px;
   }

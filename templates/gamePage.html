@@ -35,14 +35,16 @@
 <button>
   <a href="http://127.0.0.1:5000/gamePage">Restart Game</a>
 </button>
+<button onclick="window.location.href='/exit_game'">Exit Game</button>
 
-<button id="pause-button">Pause</button>
-    <div id="pause-overlay" style="display: none;">
-      <p>Paused</p>
-      <button id="resume-button">Resume</button>
-    </div>
-    <script src="index.js"></script>
-  
-  <div id="pause-menu-overlay" style="display: none;"></div>
+
+
+<div id="overlay">
+  <div id="pause-menu">
+    <h2>Game Paused</h2>
+    <button onclick="resumeGame()">Resume</button>
+  </div>
+</div>
+
 </body>
 {% endblock %}
