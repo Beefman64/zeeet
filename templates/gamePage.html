@@ -18,10 +18,10 @@
 
   
   <div class="audio-container">
-    <audio src="{{ url_for('static', filename='Jumper_theme.mp3') }}" autoplay loop controls="volume"></audio>
+    <audio src="{{ url_for('static', filename='mp3/Jumper_theme.mp3') }}" autoplay loop controls="volume"></audio>
   </div>
 
-  <audio id="myAudio" src="{{ url_for('static', filename='jump_sfx.mp3') }}"></audio>
+  <audio id="myAudio" src="{{ url_for('static', filename='mp3/jump_sfx.mp3') }}"></audio>
   <script>
     document.addEventListener('keydown', function(event) {
       if (event.key === 'w') {
