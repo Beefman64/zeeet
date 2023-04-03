@@ -18,4 +18,11 @@
 
     <script src="{{ url_for('static', filename='style.css') }}"></script>
   </body>
+
+  <div class="audio-container">
+    <audio src="{{ url_for('static', filename='lobby_music.mp3') }}" autoplay loop controls="volume"></audio>
+  </div>
+
+  <button onclick="window.location.href='/exit_game'">Exit Game</button>
+  
 </html>

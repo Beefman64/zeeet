@@ -1,4 +1,4 @@
-import sys 
+import sys, os 
 from flask import Flask, render_template
 app = Flask(__name__)
 
@@ -17,6 +17,27 @@ def game_menu():
 def highscorePage():
    return render_template('scorepage.html')
 
+
+#@app.route('/volume')
+#def volume():
+#    return render_template('volume.html')
+
+#@app.route('/quit')
+#def quit_game():
+#    global is_paused
+
+@app.route('/pause')
+def pause():
+    return render_template('pause.html')
+
+@app.route('/resume', methods=['POST'])
+def resume():
+    return "Game resumed successfully"
+
+@app.route('/exit_game')
+def exit_game():
+    # Use os._exit() to terminate the Python process running the Flask app
+    os._exit(0)
 
 
 if __name__ == '__main__':
