@@ -27,3 +27,17 @@ This README would normally document whatever steps are necessary to get your app
 
 * Repo owner or admin
 * Other community or team contact
+
+    Sprint 1:
+Jess Stevenson: "created the flask webpage and the orginization of our pages as well as creating a basic scoring system for the game once added."
+
+    Jira Task: Create a flask webpage to host our game on
+        reference: https://cs3398s23gorns.atlassian.net/jira/software/projects/JUM/boards/2?selectedIssue=JUM-19
+    Jira Task: Create the menu gui for the game
+        reference: https://cs3398s23gorns.atlassian.net/jira/software/projects/JUM/boards/2?selectedIssue=JUM-29
+    Jira Task: Implement scoring system
+        reference: https://cs3398s23gorns.atlassian.net/jira/software/projects/JUM/boards/2?selectedIssue=JUM-9
+
+
+    Sprint 2:
+Jess Stevenson: "SQLdatabase, maybe firebase, will decide after some research"
