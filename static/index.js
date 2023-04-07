@@ -86,6 +86,115 @@ class Player {
     }
 }
 
+// Base Enemy class
+class Enemy {
+    constructor(position, imageSrc, width, height) {
+        this.position = position; // Enemy position
+        this.velocity = { // Enemy velocity
+            x: 0,
+            y: 1,
+        };
+        this.width = width || 50; // Enemy width, default 50
+        this.height = height || 50; // Enemy height, default 50
+        this.image = new Image(); // Enemy image
+        this.image.src = imageSrc;
+        this.loaded = false;
+        this.image.onload = () => { // Load enemy image
+            this.loaded = true;
+        };
+    }
+
+    draw() {
+        if (!this.loaded) return; // Do not draw if image not loaded
+        c.drawImage(this.image, this.position.x, this.position.y, this.width, this.height);
+    }
+
+    update() {
+        this.draw(); // Draw enemy
+        // Update enemy position
+        this.position.y += this.velocity.y;
+        this.position.x += this.velocity.x;
+    }
+}
+
+// FlyingEnemy class, inherits from Enemy
+class FlyingEnemy extends Enemy {
+    constructor(position, imageSrc, width, height) {
+        super(position, imageSrc, width, height);
+        this.velocity.x = 3;
+        this.velocity.y = 0;
+    }
+
+    update() {
+        super.update(); // Call the update method of the base Enemy class
+        // Reverse the horizontal direction when the enemy reaches the edge of the canvas
+        if (this.position.x <= 0 || this.position.x + this.width >= canvas.width) {
+            this.velocity.x = -this.velocity.x;
+        }
+    }
+}
+
+// GroundEnemy class, inherits from Enemy
+class GroundEnemy extends Enemy {
+    constructor(position, imageSrc, width, height) {
+        super(position, imageSrc, width, height);
+        this.velocity.x = 5;
+        this.velocity.y = 0;
+        this.gravity = 0.5;
+    }
+
+    update() {
+        super.update(); // Call the update method of the base Enemy class
+
+        // Reverse the horizontal direction when the enemy reaches the edge of the canvas
+        if (this.position.x <= 0 || this.position.x + this.width >= canvas.width) {
+            this.velocity.x = -this.velocity.x;
+        }
+
+        // Calculate ground level
+        const groundLevel = canvas.height - this.height;
+
+        // Apply gravity
+        if (this.position.y + this.height < groundLevel) {
+            this.velocity.y += this.gravity;
+        } else {
+            this.velocity.y = 0;
+            this.position.y = groundLevel;
+
+            // Randomly jump if the enemy is on the ground
+            if (Math.random() < 0.01) {
+                this.velocity.y = -10;
+            }
+        }
+    }
+}
+
+
+
+// Function to spawn new enemies
+function spawnEnemies() {
+    const randomX = Math.floor(Math.random() * (canvas.width - 50));
+    const randomType = Math.random() > 0.5 ? 'flying' : 'ground';
+
+    if (randomType === 'flying') {
+        // Limit the random y position for flying enemies to the top 25% of the canvas
+        const randomY = Math.floor(Math.random() * (canvas.height * 0.25));
+        enemies.push(new FlyingEnemy({ x: randomX, y: randomY }, 'static/image/flying_enemy.png'));
+    } else {
+        const randomY = Math.floor(Math.random() * (canvas.height - 50));
+        enemies.push(new GroundEnemy({ x: randomX, y: randomY }, 'static/image/ground_enemy.png'));
+    }
+}
+
+
+// Spawn new enemies every 10 seconds
+setInterval(spawnEnemies, 10000);
+
+// Initialize enemies array with instances of different enemy types
+const enemies = [
+    new FlyingEnemy({ x: 500, y: 100 }, 'static/image/flying_enemy.png'),
+    new GroundEnemy({ x: 700, y: 300 }, 'static/image/ground_enemy.png'),
+];
 
 
 class Platform{
@@ -166,6 +275,9 @@ background.update();
 timer.update();
 player.update();
 platform.update();
+
+// Iterate through enemies array and update each enemy
+enemies.forEach(enemy => enemy.update());
 
 
 if (player.position.x + player.height >= platform.position.x &&
