@@ -415,6 +415,7 @@ canvas.addEventListener('mousedown', (event) => {
 
 //toggle pause function 
 function togglePause() {
+    console.log('Toggle pause function called'); // Add this line
     isPaused = !isPaused;
     const pauseOverlay = document.getElementById('pause-overlay');
     pauseOverlay.style.display = isPaused ? 'flex' : 'none';
