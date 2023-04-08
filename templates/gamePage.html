@@ -12,13 +12,14 @@
   <script
    type="text/javascript" src="{{ url_for('static', filename='index.js') }}"></script>
   <script type="text/javascript" src="{{ url_for('static', filename='style.css') }}"></script>
+
+  <link rel="stylesheet" href="style.css">
+
+
 </head>
 
 <body>
-  <div id="game-page">
-    <button id="pause-btn">Pause</button>
-  </div>
-  
+
   <div class="audio-container">
     <audio src="{{ url_for('static', filename='Jumper_theme.mp3') }}" autoplay loop controls="volume"></audio>
   </div>
@@ -32,19 +33,33 @@
         audio.play();
       }
     });
+  </script>
 
-    $(document).ready(function() {
-      $('#pause-btn').click(function() {
-        $.ajax({
-          url: '/pause',
-          success: function(response) {
-            $('#pause-menu-overlay').html(response).fadeIn();
-          }
-        });
-      });
+  <button id="pause-btn">Pause</button>
+  <div id="pause-overlay" style="display:none;">
+    <div id="pause-menu">
+      <h1>Paused</h1>
+      <button id="resume-btn">Resume</button>
+    </div>
+  </div>
+
+  <script>
+    var pauseBtn = document.getElementById('pause-btn');
+    var pauseOverlay = document.getElementById('pause-overlay');
+    var resumeBtn = document.getElementById('resume-btn');
+    var canvas = document.querySelector('canvas');
+
+    pauseBtn.addEventListener('click', function() {
+      pauseOverlay.style.display = 'block';
+      canvas.style.filter = 'blur(5px)';
+    });
+
+    resumeBtn.addEventListener('click', function() {
+      pauseOverlay.style.display = 'none';
+      canvas.style.filter = 'none';
     });
   </script>
-  
-  <div id="pause-menu-overlay" style="display: none;"></div>
+  <script src="index.js"></script>
+
 </body>
 {% endblock %}

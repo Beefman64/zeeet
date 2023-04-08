@@ -1,10 +1,14 @@
+
+
+
 const canvas = document.querySelector('canvas')
 //c stands for context
  const c= canvas.getContext('2d')
- 
 canvas.width = 1024
 canvas.height= 576
 const gravity = 0.5
+let isPaused = false;
+
 
 class img {
     constructor({ position, imageSrc }) {
@@ -332,25 +336,29 @@ const background = new img({
 FPS.frameNo=0;
 //function updates frame by frame
 function FPS(){
-c.clearRect(0, 0, canvas.width, canvas.height); 
-background.update();
-timer.update();
-player.update();
-platform.update();
-currentWeapon.update();
-// Iterate through enemies array and update each enemy
-enemies.forEach(enemy => enemy.update());
-
-
-if (player.position.x + player.height >= platform.position.x &&
-    player.position.x <= platform.position.x + platform.width &&
-    player.position.y + player.height >= platform.position.y &&
-    player.position.y + player.height <= platform.position.y + platform.height) {
-    player.velocity.y = 0;
-    player.position.y = platform.position.y - player.height;
-  }
-
-window.requestAnimationFrame(FPS)
+    if (!isPaused) {
+        c.clearRect(0, 0, canvas.width, canvas.height);
+        background.update();
+        timer.update();
+        player.update();
+        platform.update();
+        currentWeapon.update();
+    
+        // Iterate through enemies array and update each enemy
+        enemies.forEach(enemy => enemy.update());
+    
+        if (
+          player.position.x + player.height >= platform.position.x &&
+          player.position.x <= platform.position.x + platform.width &&
+          player.position.y + player.height >= platform.position.y &&
+          player.position.y + player.height <= platform.position.y + platform.height
+        ) {
+          player.velocity.y = 0;
+          player.position.y = platform.position.y - player.height;
+        }
+      }
+    
+      window.requestAnimationFrame(FPS);
 }
 
 window.requestAnimationFrame(FPS);
@@ -377,6 +385,12 @@ window.addEventListener('keydown', (event) =>{
         case 'w':
         player.velocity.y = -15
          break
+         case 'p':
+        isPaused = true;
+        break;
+        case 'r':
+        isPaused = false;
+        break;
     }
 });
 
@@ -397,3 +411,24 @@ canvas.addEventListener('mousedown', (event) => {
       }
     }
   });
+
+
+//toggle pause function 
+function togglePause() {
+    isPaused = !isPaused;
+    const pauseOverlay = document.getElementById('pause-overlay');
+    pauseOverlay.style.display = isPaused ? 'flex' : 'none';
+  }
+  
+  const pauseBtn = document.getElementById('pause-btn');
+  pauseBtn.addEventListener('click', togglePause);
+  
+  const resumeBtn = document.getElementById('resume-btn');
+  resumeBtn.addEventListener('click', togglePause);
+  
+  window.addEventListener('keydown', (event) => {
+    if (event.key === 'p') {
+      togglePause();
+    }
+  });
+
