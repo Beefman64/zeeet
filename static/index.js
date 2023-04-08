@@ -57,11 +57,6 @@ class Player {
         this.position.y += this.velocity.y;
         this.position.x += this.velocity.x;
         // detects border collisons 
-       /* if (this.position.y + this.height + this.velocity.y < canvas.height) {
-            this.velocity.y += gravity;
-        } else {
-            this.velocity.y = 0;
-        } */
         if (this.position.x < 0) {
             this.position.x = 0;
         }
@@ -320,7 +315,7 @@ const timer = new scoreTimer({
 })
 var frameNo = 0 
 
-const background = new img({
+const background = new img({ // changing this image will load a differnt background
     position: {
         x: 0,
         y: 0,
@@ -354,18 +349,9 @@ window.requestAnimationFrame(FPS)
 }
 
 window.requestAnimationFrame(FPS);
-/*
-function onPLatform(){
-    if (player.position.x + player.height >= platform.position.x &&
-        player.position.x <= platform.position.x + platform.width &&
-        player.position.y + player.height >= platform.position.y &&
-        player.position.y + player.height <= platform.position.y + platform.height) {
-        player.velocity.y = 0;
-        player.position.y = platform.position.y - player.height;
-    }
-}
-*/
 
+
+// player movement 
 window.addEventListener('keydown', (event) =>{
     switch(event.key){
         case 'd':
@@ -379,7 +365,7 @@ window.addEventListener('keydown', (event) =>{
          break
     }
 });
-
+// shooting weapon 
 canvas.addEventListener('mousedown', (event) => {
     const rect = canvas.getBoundingClientRect();
     const mouseX = event.clientX - rect.left;
@@ -388,6 +374,7 @@ canvas.addEventListener('mousedown', (event) => {
     currentWeapon.shoot(player.position.x + player.width / 2, player.position.y + player.height / 2, mouseX, mouseY);
   });
   
+  //changing inventory
   window.addEventListener('keydown', (event) => {
     if (event.key >= '1' && event.key <= '8') {
       const slot = parseInt(event.key) - 1;
