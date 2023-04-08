@@ -86,6 +86,69 @@ class Player {
     }
 }
 
+// Add this after the Player class
+class Weapon {
+    constructor(cooldown) {
+      this.projectiles = [];
+      this.cooldown = cooldown || 0; // Set a default cooldown if not provided
+      this.lastShot = 0;
+    }
+  
+    shoot(startX, startY, targetX, targetY) {
+      const currentTime = Date.now();
+      if (currentTime - this.lastShot < this.cooldown) {
+        return; // Don't shoot if the cooldown hasn't expired
+      }
+      this.lastShot = currentTime;
+  
+      const dx = targetX - startX;
+      const dy = targetY - startY;
+      const angle = Math.atan2(dy, dx);
+  
+      const velocity = {
+        x: Math.cos(angle) * 5,
+        y: Math.sin(angle) * 5,
+      };
+  
+      this.projectiles.push({ x: startX, y: startY, velocity });
+    }
+  
+    update() {
+      for (let i = 0; i < this.projectiles.length; i++) {
+        const projectile = this.projectiles[i];
+        projectile.x += projectile.velocity.x;
+        projectile.y += projectile.velocity.y;
+  
+        c.fillStyle = 'black';
+        c.beginPath();
+        c.arc(projectile.x, projectile.y, 5, 0, Math.PI * 2);
+        c.fill();
+      }
+    }
+  }
+  
+  
+  class Inventory {
+    constructor() {
+      this.slots = new Array(8).fill(null);
+    }
+  
+    addWeapon(slot, weapon) {
+      this.slots[slot] = weapon;
+    }
+  
+    switchWeapon(slot) {
+      return this.slots[slot];
+    }
+  }
+  
+  const inventory = new Inventory();
+  const starterWeapon = new Weapon(500); // 500 ms cooldown between shots
+  inventory.addWeapon(0, starterWeapon);
+
+  let currentWeapon = starterWeapon;
+
+
 // Base Enemy class
 class Enemy {
     constructor(position, imageSrc, width, height) {
@@ -275,7 +338,7 @@ background.update();
 timer.update();
 player.update();
 platform.update();
-
+currentWeapon.update();
 // Iterate through enemies array and update each enemy
 enemies.forEach(enemy => enemy.update());
 
@@ -317,3 +380,21 @@ window.addEventListener('keydown', (event) =>{
          break
     }
 });
+
+canvas.addEventListener('mousedown', (event) => {
+    const rect = canvas.getBoundingClientRect();
+    const mouseX = event.clientX - rect.left;
+    const mouseY = event.clientY - rect.top;
+  
+    currentWeapon.shoot(player.position.x + player.width / 2, player.position.y + player.height / 2, mouseX, mouseY);
+  });
+  
+  window.addEventListener('keydown', (event) => {
+    if (event.key >= '1' && event.key <= '8') {
+      const slot = parseInt(event.key) - 1;
+      const newWeapon = inventory.switchWeapon(slot);
+      if (newWeapon) {
+        currentWeapon = newWeapon;
+      }
+    }
+  });
