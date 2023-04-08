@@ -85,8 +85,7 @@ class Player {
         }
     }
 }
-
-// Add this after the Player class
+//weapon class that can be extended later 
 class Weapon {
     constructor(cooldown) {
       this.projectiles = [];
