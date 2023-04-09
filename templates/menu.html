@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Game Menu</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  </head>
+  <body>
+    <h1>Welcome!</h1>
+    <h2>Click below to get started...</h2>
+    <button>
+        <a href="http://127.0.0.1:5000/gamePage">Start Game</a>
+      </button>
+      
+    <p></p>
+    <button>
+        <a href="http://127.0.0.1:5000/highscorePage">Highscores</a>
+      </button>
+
+    <script src="{{ url_for('static', filename='style.css') }}"></script>
+  </body>
+
+  <div class="audio-container">
+    <audio src="{{ url_for('static', filename='lobby_music.mp3') }}" autoplay loop controls="volume"></audio>
+  </div>
+
+  <button onclick="window.location.href='/exit_game'">Exit Game</button>
+  
+</html>

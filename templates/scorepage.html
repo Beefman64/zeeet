@@ -1,0 +1,14 @@
+{% extends "layout.html" %}
+{% block content %}
+  <div class="jumbo">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <h1>Highscores<h1>
+    <h2>top 5 scores below<h2>
+  </div>
+
+
+  <button>
+    <a href="http://127.0.0.1:5000">Main Menu</a>
+  </button>
+  <script src="{{ url_for('static', filename='style.css') }}"></script>
+{% endblock %}
