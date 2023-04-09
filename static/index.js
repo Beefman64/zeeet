@@ -57,11 +57,6 @@ class Player {
         this.position.y += this.velocity.y;
         this.position.x += this.velocity.x;
         // detects border collisons 
-       /* if (this.position.y + this.height + this.velocity.y < canvas.height) {
-            this.velocity.y += gravity;
-        } else {
-            this.velocity.y = 0;
-        } */
         if (this.position.x < 0) {
             this.position.x = 0;
         }
@@ -87,11 +82,12 @@ class Player {
 }
 //weapon class that can be extended later 
 class Weapon {
-    constructor(cooldown) {
-      this.projectiles = [];
-      this.cooldown = cooldown || 0; // Set a default cooldown if not provided
-      this.lastShot = 0;
-    }
+        constructor(cooldown, damage) {
+          this.projectiles = [];
+          this.cooldown = cooldown || 0;
+          this.damage = damage || 1; // Default damage is 1
+          this.lastShot = 0;
+        }
   
     shoot(startX, startY, targetX, targetY) {
       const currentTime = Date.now();
@@ -142,7 +138,7 @@ class Weapon {
   }
   
   const inventory = new Inventory();
-  const starterWeapon = new Weapon(500); // 500 ms cooldown between shots
+  const starterWeapon = new Weapon(500, 1); // 500 ms cooldown between shots with 1 dammage 
   inventory.addWeapon(0, starterWeapon);
 
   let currentWeapon = starterWeapon;
@@ -150,12 +146,13 @@ class Weapon {
 
 // Base Enemy class
 class Enemy {
-    constructor(position, imageSrc, width, height) {
+    constructor(position, imageSrc, width, height, hp) {
         this.position = position; // Enemy position
         this.velocity = { // Enemy velocity
             x: 0,
             y: 1,
         };
+        this.hp= hp || 1; // default enemy health
         this.width = width || 50; // Enemy width, default 50
         this.height = height || 50; // Enemy height, default 50
         this.image = new Image(); // Enemy image
@@ -177,12 +174,20 @@ class Enemy {
         this.position.y += this.velocity.y;
         this.position.x += this.velocity.x;
     }
+    //enemys can take damage 
+    takeDamage(damage) {
+        this.hp -= damage;
+      }
+      //checks if an enemy is dead
+      isDead() {
+        return this.hp <= 0;
+      }
 }
 
 // FlyingEnemy class, inherits from Enemy
 class FlyingEnemy extends Enemy {
     constructor(position, imageSrc, width, height) {
-        super(position, imageSrc, width, height);
+        super(position, imageSrc, width, height, /*hp*/ 1);
         this.velocity.x = 3;
         this.velocity.y = 0;
     }
@@ -199,7 +204,7 @@ class FlyingEnemy extends Enemy {
 // GroundEnemy class, inherits from Enemy
 class GroundEnemy extends Enemy {
     constructor(position, imageSrc, width, height) {
-        super(position, imageSrc, width, height);
+        super(position, imageSrc, width, height,/*hp*/ 2);
         this.velocity.x = 5;
         this.velocity.y = 0;
         this.gravity = 0.5;
@@ -223,7 +228,7 @@ class GroundEnemy extends Enemy {
             this.velocity.y = 0;
             this.position.y = groundLevel;
 
-            // Randomly jump if the enemy is on the ground
+            // Randomly jump if the enemy is on the ground DOES NOT WORK 
             if (Math.random() < 0.01) {
                 this.velocity.y = -10;
             }
@@ -249,8 +254,8 @@ function spawnEnemies() {
 }
 
 
-// Spawn new enemies every 10 seconds
-setInterval(spawnEnemies, 10000);
+// Spawn new enemies every seconds
+setInterval(spawnEnemies, 1050);
 
 // Initialize enemies array with instances of different enemy types
 const enemies = [
@@ -320,7 +325,7 @@ const timer = new scoreTimer({
 })
 var frameNo = 0 
 
-const background = new img({
+const background = new img({ // changing this image will load a differnt background
     position: {
         x: 0,
         y: 0,
@@ -340,32 +345,15 @@ platform.update();
 currentWeapon.update();
 // Iterate through enemies array and update each enemy
 enemies.forEach(enemy => enemy.update());
-
-
-if (player.position.x + player.height >= platform.position.x &&
-    player.position.x <= platform.position.x + platform.width &&
-    player.position.y + player.height >= platform.position.y &&
-    player.position.y + player.height <= platform.position.y + platform.height) {
-    player.velocity.y = 0;
-    player.position.y = platform.position.y - player.height;
-  }
-
+handlePlayerPlatformCollision(player, platform);
+detectProjectileCollisionsWithEnemies(currentWeapon.projectiles, enemies);
 window.requestAnimationFrame(FPS)
 }
 
 window.requestAnimationFrame(FPS);
-/*
-function onPLatform(){
-    if (player.position.x + player.height >= platform.position.x &&
-        player.position.x <= platform.position.x + platform.width &&
-        player.position.y + player.height >= platform.position.y &&
-        player.position.y + player.height <= platform.position.y + platform.height) {
-        player.velocity.y = 0;
-        player.position.y = platform.position.y - player.height;
-    }
-}
-*/
 
+
+// player movement 
 window.addEventListener('keydown', (event) =>{
     switch(event.key){
         case 'd':
@@ -379,7 +367,7 @@ window.addEventListener('keydown', (event) =>{
          break
     }
 });
-
+// shooting weapon 
 canvas.addEventListener('mousedown', (event) => {
     const rect = canvas.getBoundingClientRect();
     const mouseX = event.clientX - rect.left;
@@ -388,6 +376,7 @@ canvas.addEventListener('mousedown', (event) => {
     currentWeapon.shoot(player.position.x + player.width / 2, player.position.y + player.height / 2, mouseX, mouseY);
   });
   
+  //changing inventory
   window.addEventListener('keydown', (event) => {
     if (event.key >= '1' && event.key <= '8') {
       const slot = parseInt(event.key) - 1;
@@ -397,3 +386,41 @@ canvas.addEventListener('mousedown', (event) => {
       }
     }
   });
+
+  //fps functions 
+  function detectProjectileCollisionsWithEnemies(projectiles, enemies) {
+    for (let i = projectiles.length - 1; i >= 0; i--) {
+      const projectile = projectiles[i];
+  
+      for (let j = enemies.length - 1; j >= 0; j--) {
+        const enemy = enemies[j];
+        const isColliding =
+          projectile.x >= enemy.position.x &&
+          projectile.x <= enemy.position.x + enemy.width &&
+          projectile.y >= enemy.position.y &&
+          projectile.y <= enemy.position.y + enemy.height;
+  
+        if (isColliding) {
+          enemy.takeDamage(currentWeapon.damage);
+  
+          if (enemy.isDead()) {
+            enemies.splice(j, 1);
+          }
+  
+          projectiles.splice(i, 1);
+          break;
+        }
+      }
+    }
+  }
+  function handlePlayerPlatformCollision(player, platform) {
+    if (
+        player.position.x + player.height >= platform.position.x &&
+        player.position.x <= platform.position.x + platform.width &&
+        player.position.y + player.height >= platform.position.y &&
+        player.position.y + player.height <= platform.position.y + platform.height
+    ) {
+        player.velocity.y = 0;
+        player.position.y = platform.position.y - player.height;
+    }
+}
