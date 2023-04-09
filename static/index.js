@@ -121,7 +121,49 @@ class Weapon {
       }
     }
   }
+
+  class TripleShotWeapon extends Weapon {
+    constructor(cooldown, damage) {
+      super(cooldown, damage);
+    }
   
+    shoot(startX, startY, targetX, targetY) {
+      const currentTime = Date.now();
+      if (currentTime - this.lastShot < this.cooldown) {
+        return; // Don't shoot if the cooldown hasn't expired
+      }
+      this.lastShot = currentTime;
+  
+      const dx = targetX - startX;
+      const dy = targetY - startY;
+      const angle = Math.atan2(dy, dx);
+  
+      const projectile1Velocity = {
+        x: Math.cos(angle - Math.PI / 6) * 5,
+        y: Math.sin(angle - Math.PI / 6) * 5,
+      };
+      const projectile2Velocity = {
+        x: Math.cos(angle) * 5,
+        y: Math.sin(angle) * 5,
+      };
+      const projectile3Velocity = {
+        x: Math.cos(angle + Math.PI / 6) * 5,
+        y: Math.sin(angle + Math.PI / 6) * 5,
+      };
+  
+      this.projectiles.push({ x: startX, y: startY, velocity: projectile1Velocity });
+      this.projectiles.push({ x: startX, y: startY, velocity: projectile2Velocity });
+      this.projectiles.push({ x: startX, y: startY, velocity: projectile3Velocity });
+    }
+  }
+
+  document.addEventListener('keydown', function(event) {
+    if (event.code === 'KeyP') {
+      currentWeapon = inventory.switchWeapon(1);
+    } else if (event.code === 'KeyO') {
+      currentWeapon = inventory.switchWeapon(0);
+    }
+  });
   
   class Inventory {
     constructor() {
@@ -138,11 +180,12 @@ class Weapon {
   }
   
   const inventory = new Inventory();
-  const starterWeapon = new Weapon(500, 1); // 500 ms cooldown between shots with 1 dammage 
+  const starterWeapon = new Weapon(500, 1);
+  const tripleShotWeapon = new TripleShotWeapon(1000, 1); // 1000 ms cooldown between shots with 1 damage and 3 projectiles
   inventory.addWeapon(0, starterWeapon);
-
+  inventory.addWeapon(1, tripleShotWeapon);
+  
   let currentWeapon = starterWeapon;
-
 
 // Base Enemy class
 class Enemy {
@@ -354,17 +397,26 @@ window.requestAnimationFrame(FPS);
 
 
 // player movement 
-window.addEventListener('keydown', (event) =>{
-    switch(event.key){
+window.addEventListener('keydown', (event) => {
+    switch(event.key) {
         case 'd':
-        player.velocity.x = 10
-        break
+            player.velocity.x = 10;
+            break;
         case 'a':
-        player.velocity.x = -15
-        break
+            player.velocity.x = -15;
+            break;
         case 'w':
-        player.velocity.y = -15
-         break
+            player.velocity.y = -15;
+            break;
+    }
+});
+
+window.addEventListener('keyup', (event) => {
+    switch(event.key) {
+        case 'd':
+        case 'a':
+            player.velocity.x = 0;
+            break;
     }
 });
 // shooting weapon 
