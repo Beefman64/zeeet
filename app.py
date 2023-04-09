@@ -1,6 +1,12 @@
 import sys, os 
 from flask import Flask, render_template
+import sqlite3
+
+
 app = Flask(__name__)
+dabase = sqlite3.connect('Highscore_info.db')
+cur = dabase.cursor()
+
 
 
 @app.route("/gamePage")
