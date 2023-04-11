@@ -1,7 +1,9 @@
 const canvas = document.querySelector('canvas')
 //c stands for context
  const c= canvas.getContext('2d')
- 
+ let isPaused = false;
+
+
 canvas.width = 1024
 canvas.height= 576
 const gravity = 0.5
@@ -380,17 +382,29 @@ const background = new img({ // changing this image will load a differnt backgro
 FPS.frameNo=0;
 //function updates frame by frame
 function FPS(){
-c.clearRect(0, 0, canvas.width, canvas.height); 
-background.update();
-timer.update();
-player.update();
-platform.update();
-currentWeapon.update();
-// Iterate through enemies array and update each enemy
-enemies.forEach(enemy => enemy.update());
-handlePlayerPlatformCollision(player, platform);
-detectProjectileCollisionsWithEnemies(currentWeapon.projectiles, enemies);
-window.requestAnimationFrame(FPS)
+    if (!isPaused) {
+        c.clearRect(0, 0, canvas.width, canvas.height);
+        background.update();
+        timer.update();
+        player.update();
+        platform.update();
+        currentWeapon.update();
+    
+        // Iterate through enemies array and update each enemy
+        enemies.forEach(enemy => enemy.update());
+    
+        if (
+          player.position.x + player.height >= platform.position.x &&
+          player.position.x <= platform.position.x + platform.width &&
+          player.position.y + player.height >= platform.position.y &&
+          player.position.y + player.height <= platform.position.y + platform.height
+        ) {
+          player.velocity.y = 0;
+          player.position.y = platform.position.y - player.height;
+        }
+      }
+    
+      window.requestAnimationFrame(FPS);
 }
 
 window.requestAnimationFrame(FPS);
@@ -476,3 +490,23 @@ canvas.addEventListener('mousedown', (event) => {
         player.position.y = platform.position.y - player.height;
     }
 }
+
+//toggle pause function 
+function togglePause() {
+    console.log('Toggle pause function called'); // Add this line
+    isPaused = !isPaused;
+    const pauseOverlay = document.getElementById('pause-overlay');
+    pauseOverlay.style.display = isPaused ? 'flex' : 'none';
+  }
+  
+  const pauseBtn = document.getElementById('pause-btn');
+  pauseBtn.addEventListener('click', togglePause);
+  
+  const resumeBtn = document.getElementById('resume-btn');
+  resumeBtn.addEventListener('click', togglePause);
+  
+  window.addEventListener('keydown', (event) => {
+    if (event.key === 'p') {
+      togglePause();
+    }
+  });
