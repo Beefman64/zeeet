@@ -7,6 +7,29 @@
   <body>
     <h1>Welcome!</h1>
     <h2>Click below to get started...</h2>
+
+                    <form>
+                        <label for="userInput">Enter your username:</label>
+                        <input type="text" id="userInput" name="userInput">
+                        <button>
+                            <type="submit" value="Submit" onclick="displayName()"> Enter </button> 
+                    </form>
+                    
+                    <p></p>
+                    <h3> Your username is <span id="output">____</span></h3>
+                    <p></p>
+                    <p></p>
+                    <p></p>
+                    <p></p>
+
+                    <script>
+                        function displayName() {
+                          var name = document.getElementById("userInput").value;
+                  
+                          document.getElementById("output").innerHTML = name
+                        }
+                      </script>
+
     <button>
         <a href="http://127.0.0.1:5000/gamePage">Start Game</a>
       </button>

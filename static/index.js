@@ -356,7 +356,7 @@ draw(){
 update(){
     this.draw()
     this.frame += 1;
-    if (this.frame % 5 == 0){
+    if (this.frame % 10 == 0){
         this.score += 1
         }
     }
