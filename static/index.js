@@ -1,10 +1,19 @@
 const canvas = document.querySelector('canvas')
 //c stands for context
  const c= canvas.getContext('2d')
- 
+ let isPaused = false;
+
+
 canvas.width = 1024
 canvas.height= 576
 const gravity = 0.5
+
+//sound effects for gameplay
+const jumpSfx = new Audio('static/jump_sfx.mp3');
+const jumperGunSound = new Audio('static/jumper_gun.mp3');
+jumperGunSound.volume = 0.2;
+
+
 
 class img {
     constructor({ position, imageSrc }) {
@@ -280,9 +289,13 @@ class GroundEnemy extends Enemy {
 }
 
 
-
+//max cap on enemies = 10
+const maxEnemies = 10;
 // Function to spawn new enemies
 function spawnEnemies() {
+    if(enemies.length>=maxEnemies){
+        return;
+    }
     const randomX = Math.floor(Math.random() * (canvas.width - 50));
     const randomType = Math.random() > 0.5 ? 'flying' : 'ground';
 
@@ -347,26 +360,33 @@ class scoreTimer{
     constructor(position){
     this.score = 0
     this.frame = 0
+    this.enemiesKilled = 0
+    this.enemiesKilledCounted = 0
 }
 draw(){
-    c.fillStyle = 'black'
+    c.fillStyle = 'yellow'
     c.font="25px Georgia";
     c.fillText('Score: '+ this.score, 880, 25);
 }
 update(){
     this.draw()
     this.frame += 1;
-    if (this.frame % 5 == 0){
+    if (this.frame % 10 == 0){
         this.score += 1
         }
+    if(this.enemiesKilled > this.enemiesKilledCounted) {
+        this.score += 20
+        this.enemiesKilledCounted = this.enemiesKilled
+        }
     }
+
 }
 
 const timer = new scoreTimer({
     x:100,
     y:100,
 })
-var frameNo = 0 
+//var frameNo = 0 
 
 const background = new img({ // changing this image will load a differnt background
     position: {
@@ -380,18 +400,34 @@ const background = new img({ // changing this image will load a differnt backgro
 FPS.frameNo=0;
 //function updates frame by frame
 function FPS(){
-c.clearRect(0, 0, canvas.width, canvas.height); 
-background.update();
-timer.update();
-player.update();
-platform.update();
-currentWeapon.update();
-// Iterate through enemies array and update each enemy
-enemies.forEach(enemy => enemy.update());
-handlePlayerPlatformCollision(player, platform);
-detectProjectileCollisionsWithEnemies(currentWeapon.projectiles, enemies);
-window.requestAnimationFrame(FPS)
+    if (!isPaused) {
+        c.clearRect(0, 0, canvas.width, canvas.height);
+        background.update();
+        timer.update();
+        player.update();
+        platform.update();
+        currentWeapon.update();
+    
+        // Iterate through enemies array and update each enemy
+        enemies.forEach(enemy => enemy.update());
+
+        // Check for collisions between projectiles and enemies
+        detectProjectileCollisionsWithEnemies(currentWeapon.projectiles, enemies);
+    
+        if (
+          player.position.x + player.height >= platform.position.x &&
+          player.position.x <= platform.position.x + platform.width &&
+          player.position.y + player.height >= platform.position.y &&
+          player.position.y + player.height <= platform.position.y + platform.height
+        ) {
+          player.velocity.y = 0;
+          player.position.y = platform.position.y - player.height;
+        }
+    }
+    
+    window.requestAnimationFrame(FPS);
 }
+
 
 window.requestAnimationFrame(FPS);
 
@@ -407,6 +443,7 @@ window.addEventListener('keydown', (event) => {
             break;
         case 'w':
             player.velocity.y = -15;
+            jumpSfx.play();
             break;
     }
 });
@@ -421,6 +458,11 @@ window.addEventListener('keyup', (event) => {
 });
 // shooting weapon 
 canvas.addEventListener('mousedown', (event) => {
+
+    //mousedown makes the jumper_gun.mp3 play
+    jumperGunSound.currentTime = 0; // Reset the audio playback to the start
+    jumperGunSound.play();
+
     const rect = canvas.getBoundingClientRect();
     const mouseX = event.clientX - rect.left;
     const mouseY = event.clientY - rect.top;
@@ -457,6 +499,7 @@ canvas.addEventListener('mousedown', (event) => {
   
           if (enemy.isDead()) {
             enemies.splice(j, 1);
+            timer.enemiesKilled += 1;
           }
   
           projectiles.splice(i, 1);
@@ -476,3 +519,36 @@ canvas.addEventListener('mousedown', (event) => {
         player.position.y = platform.position.y - player.height;
     }
 }
+
+//toggle pause function 
+function togglePause() {
+    console.log('Toggle pause function called'); // Add this line
+    isPaused = !isPaused;
+    const pauseOverlay = document.getElementById('pause-overlay');
+    pauseOverlay.style.display = isPaused ? 'flex' : 'none';
+  }
+  
+  const pauseBtn = document.getElementById('pause-btn');
+  pauseBtn.addEventListener('click', togglePause);
+  
+  const resumeBtn = document.getElementById('resume-btn');
+  resumeBtn.addEventListener('click', togglePause);
+  
+  window.addEventListener('keydown', (event) => {
+    if (event.key === 't'||event.key === 'T') {
+      togglePause();
+    }
+  });
+
+
+  // Get the jump sound effect 
+const jumpSFX = document.getElementById("jump-sfx");
+
+// Play the jump sound effect when the 'w' key is pressed
+document.addEventListener("keydown", (event) => {
+    if (event.key === "w") {
+        // Reset the jump sound effect to the beginning and play it
+        jumpSFX.currentTime = 0;
+        jumpSFX.play();
+    }
+});

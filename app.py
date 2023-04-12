@@ -1,6 +1,15 @@
 import sys, os 
 from flask import Flask, render_template
+import sqlite3
+
+
 app = Flask(__name__)
+dabase = sqlite3.connect('Highscore_info.db')
+cur = dabase.cursor()
+cur.execute("CREATE TABLE IF NOT EXISTS user_Scores (name TEXT, score INTEGER)")
+dabase.commit()
+dabase.close()
+
 
 
 @app.route("/gamePage")

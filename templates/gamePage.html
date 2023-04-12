@@ -1,50 +1,77 @@
 {% extends "layout.html" %}
 {% block content %}
-  <div class="jumbo">
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-    <h2>Welcome to our games home page.<h2>
-         <canvas></canvas>
-    <h4>next step is to make this look pretty</h4>
-  </div>
-  <button>
-    <a href="http://127.0.0.1:5000">Main Menu</a>
-  </button>
-  <script
-   type="text/javascript" src="{{ url_for('static', filename='index.js') }}"></script>
-  <script type="text/javascript" src="{{ url_for('static', filename='style.css') }}"></script>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Game Page</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
-
 <body>
-  <div id="game-page">
-    <button id="pause-btn">Pause</button>
-  </div>
-  
-  <div class="audio-container">
-    <audio src="{{ url_for('static', filename='Jumper_theme.mp3') }}" autoplay loop controls="volume"></audio>
+  <div class="jumbo">
+    <h2>Welcome to our games home page.<h2>
+    <canvas></canvas>
   </div>
 
-  <audio id="myAudio" src="{{ url_for('static', filename='jump_sfx.mp3') }}"></audio>
+  <audio id="audio" autoplay loop>
+    <source src="{{ url_for('static', filename='Jumper_theme.mp3') }}" type="audio/mpeg">
+  </audio>
+
+  <button id="pause-btn">Pause</button>
+  <div id="pause-overlay" style="display:none;">
+    <div id="pause-menu">
+      <h1>Paused</h1>
+      <h2>Volume</h2>
+      <input type="range" id="volume-slider" min="0" max="100" value="50" step="1">
+      <button id="resume-btn">Resume</button>
+      <button onclick="location.href='http://127.0.0.1:5000'">Main Menu</button>
+    </div>
+  </div>
+
+  <script src="{{ url_for('static', filename='index.js') }}"></script>
   <script>
-    document.addEventListener('keydown', function(event) {
-      if (event.key === 'w') {
-        var audio = document.getElementById('myAudio');
-        audio.currentTime = 0;
-        audio.play();
-      }
-    });
+    var pauseBtn = document.getElementById('pause-btn');
+    var pauseOverlay = document.getElementById('pause-overlay');
+    var resumeBtn = document.getElementById('resume-btn');
+    var canvas = document.querySelector('canvas');
+    var audio = document.getElementById('audio');
 
-    $(document).ready(function() {
-      $('#pause-btn').click(function() {
-        $.ajax({
-          url: '/pause',
-          success: function(response) {
-            $('#pause-menu-overlay').html(response).fadeIn();
-          }
-        });
+    pauseBtn.addEventListener('click', pauseGame);
+    resumeBtn.addEventListener('click', resumeGame);
+
+    document.addEventListener('keydown', function(event) {
+      if (event.key === 't' || event.key === 'T') {
+        pauseGame();
+      }
+      if (event.key === 'r' || event.key === 'R') {
+        resumeGame();
+      }
+      
+      var volumeSlider = document.getElementById('volume-slider');
+      volumeSlider.addEventListener('input', function() {
+        var volume = volumeSlider.value / 100; // convert the slider value to a float between 0 and 1
+        audio.volume = volume; // set the audio element's volume property
       });
     });
+
+    function pauseGame() {
+      pauseOverlay.style.display = 'block';
+      canvas.style.filter = 'blur(5px)';
+      //game pause logic in index.js file
+    }
+
+    function resumeGame() {
+      pauseOverlay.style.display = 'none';
+      canvas.style.filter = 'none';
+      //game resume logic in index.js file
+    }
   </script>
-  
-  <div id="pause-menu-overlay" style="display: none;"></div>
+
+  <audio id="jump-sfx" preload="auto">
+    <source src="jump_sfx.mp3" type="audio/mpeg">
+  </audio>
+
 </body>
+</html>
 {% endblock %}
