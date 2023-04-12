@@ -347,6 +347,8 @@ class scoreTimer{
     constructor(position){
     this.score = 0
     this.frame = 0
+    this.enemiesKilled = 0
+    this.enemiesKilledCounted = 0
 }
 draw(){
     c.fillStyle = 'yellow'
@@ -359,7 +361,12 @@ update(){
     if (this.frame % 10 == 0){
         this.score += 1
         }
+    if(this.enemiesKilled > this.enemiesKilledCounted) {
+        this.score += 20
+        this.enemiesKilledCounted = this.enemiesKilled
+        }
     }
+
 }
 
 const timer = new scoreTimer({
@@ -457,6 +464,7 @@ canvas.addEventListener('mousedown', (event) => {
   
           if (enemy.isDead()) {
             enemies.splice(j, 1);
+            timer.enemiesKilled += 1;
           }
   
           projectiles.splice(i, 1);
