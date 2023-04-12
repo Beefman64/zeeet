@@ -123,7 +123,7 @@ class Weapon {
         projectile.x += projectile.velocity.x;
         projectile.y += projectile.velocity.y;
   
-        c.fillStyle = 'black';
+        c.fillStyle = 'red';
         c.beginPath();
         c.arc(projectile.x, projectile.y, 5, 0, Math.PI * 2);
         c.fill();
@@ -256,7 +256,7 @@ class FlyingEnemy extends Enemy {
 // GroundEnemy class, inherits from Enemy
 class GroundEnemy extends Enemy {
     constructor(position, imageSrc, width, height) {
-        super(position, imageSrc, width, height,/*hp*/ 2);
+        super(position, imageSrc, width, height,/*hp*/ 1);
         this.velocity.x = 5;
         this.velocity.y = 0;
         this.gravity = 0.5;
@@ -289,8 +289,8 @@ class GroundEnemy extends Enemy {
 }
 
 
-//max cap on enemies = 10
-const maxEnemies = 10;
+//max cap on enemies = 5
+const maxEnemies = 5;
 // Function to spawn new enemies
 function spawnEnemies() {
     if(enemies.length>=maxEnemies){
@@ -315,6 +315,7 @@ setInterval(spawnEnemies, 1050);
 
 // Initialize enemies array with instances of different enemy types
 const enemies = [
+  //https://www.pngegg.com/en/png-muhwz/download
     new FlyingEnemy({ x: 500, y: 100 }, 'static/image/flying_enemy.png'),
     new GroundEnemy({ x: 700, y: 300 }, 'static/image/ground_enemy.png'),
 ];
@@ -348,7 +349,7 @@ const player = new Player(
         x: 0,
         y: 0,
     },
-    'static/image/mando.png' // Replace this with the actual path to your player image
+    'static/image/player.png' // Replace this with the actual path to your player image
 );
   
   const platform = new Platform({
@@ -393,7 +394,7 @@ const background = new img({ // changing this image will load a differnt backgro
         x: 0,
         y: 0,
     },
-    imageSrc: 'static/image/datboi.png',
+    imageSrc: 'static/image/background.jpg',
 });
 
 
