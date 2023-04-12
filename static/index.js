@@ -8,6 +8,13 @@ canvas.width = 1024
 canvas.height= 576
 const gravity = 0.5
 
+//sound effects for gameplay
+const jumpSfx = new Audio('static/jump_sfx.mp3');
+const jumperGunSound = new Audio('static/jumper_gun.mp3');
+jumperGunSound.volume = 0.2;
+
+
+
 class img {
     constructor({ position, imageSrc }) {
         this.position = position;
@@ -429,6 +436,7 @@ window.addEventListener('keydown', (event) => {
             break;
         case 'w':
             player.velocity.y = -15;
+            jumpSfx.play();
             break;
     }
 });
@@ -443,6 +451,11 @@ window.addEventListener('keyup', (event) => {
 });
 // shooting weapon 
 canvas.addEventListener('mousedown', (event) => {
+
+    //mousedown makes the jumper_gun.mp3 play
+    jumperGunSound.currentTime = 0; // Reset the audio playback to the start
+    jumperGunSound.play();
+
     const rect = canvas.getBoundingClientRect();
     const mouseX = event.clientX - rect.left;
     const mouseY = event.clientY - rect.top;
@@ -514,7 +527,20 @@ function togglePause() {
   resumeBtn.addEventListener('click', togglePause);
   
   window.addEventListener('keydown', (event) => {
-    if (event.key === 'p') {
+    if (event.key === 't'||event.key === 'T') {
       togglePause();
     }
   });
+
+
+  // Get the jump sound effect 
+const jumpSFX = document.getElementById("jump-sfx");
+
+// Play the jump sound effect when the 'w' key is pressed
+document.addEventListener("keydown", (event) => {
+    if (event.key === "w") {
+        // Reset the jump sound effect to the beginning and play it
+        jumpSFX.currentTime = 0;
+        jumpSFX.play();
+    }
+});

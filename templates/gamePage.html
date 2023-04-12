@@ -19,7 +19,6 @@
     <source src="{{ url_for('static', filename='Jumper_theme.mp3') }}" type="audio/mpeg">
   </audio>
 
-  <audio id="myAudio" src="{{ url_for('static', filename='jump_sfx.mp3') }}"></audio>
 
   <button id="pause-btn">Pause</button>
   <div id="pause-overlay" style="display:none;">
@@ -43,7 +42,7 @@
     resumeBtn.addEventListener('click', resumeGame);
 
     document.addEventListener('keydown', function(event) {
-      if (event.key === 'p' || event.key === 'P') {
+      if (event.key === 't' || event.key === 'T') {
         pauseGame();
       }
       if (event.key === 'r' || event.key === 'R') {
@@ -69,6 +68,11 @@
       //game resume logic in index.js file
     }
   </script>
+
+<audio id="jump-sfx" preload="auto">
+  <source src="jump_sfx.mp3" type="audio/mpeg">
+</audio>
+
 </body>
 </html>
 {% endblock %}
