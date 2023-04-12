@@ -10,34 +10,13 @@
 </head>
 <body>
   <div class="jumbo">
-<<<<<<< HEAD
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-
-    <h2>Welcome to our games home page.<h2>
-         <canvas></canvas>
-    <p></p>
-=======
     <h2>Welcome to our games home page.<h2>
     <canvas></canvas>
-    <h4>next step is to make this look pretty</h4>
->>>>>>> Jum51-cappedEnemies-mp3file-auiotag-fixedvolume
   </div>
 
-<<<<<<< HEAD
-
-<body>
-    
-  <div id="game-page">
-    <button id="pause-btn">Pause</button>
-  </div>
-  
-  <div class="audio-container">
-    <audio src="{{ url_for('static', filename='Jumper_theme.mp3') }}" autoplay loop controls="volume"></audio>
-=======
-  <audio autoplay loop>
+  <audio id="audio" autoplay loop>
     <source src="{{ url_for('static', filename='Jumper_theme.mp3') }}" type="audio/mpeg">
   </audio>
-
 
   <button id="pause-btn">Pause</button>
   <div id="pause-overlay" style="display:none;">
@@ -48,7 +27,6 @@
       <button id="resume-btn">Resume</button>
       <button onclick="location.href='http://127.0.0.1:5000'">Main Menu</button>
     </div>
->>>>>>> Jum51-cappedEnemies-mp3file-auiotag-fixedvolume
   </div>
 
   <script src="{{ url_for('static', filename='index.js') }}"></script>
@@ -57,6 +35,7 @@
     var pauseOverlay = document.getElementById('pause-overlay');
     var resumeBtn = document.getElementById('resume-btn');
     var canvas = document.querySelector('canvas');
+    var audio = document.getElementById('audio');
 
     pauseBtn.addEventListener('click', pauseGame);
     resumeBtn.addEventListener('click', resumeGame);
@@ -89,9 +68,9 @@
     }
   </script>
 
-<audio id="jump-sfx" preload="auto">
-  <source src="jump_sfx.mp3" type="audio/mpeg">
-</audio>
+  <audio id="jump-sfx" preload="auto">
+    <source src="jump_sfx.mp3" type="audio/mpeg">
+  </audio>
 
 </body>
 </html>
