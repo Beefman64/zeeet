@@ -349,7 +349,7 @@ class scoreTimer{
     this.frame = 0
 }
 draw(){
-    c.fillStyle = 'black'
+    c.fillStyle = 'yellow'
     c.font="25px Georgia";
     c.fillText('Score: '+ this.score, 880, 25);
 }
@@ -366,7 +366,7 @@ const timer = new scoreTimer({
     x:100,
     y:100,
 })
-var frameNo = 0 
+//var frameNo = 0 
 
 const background = new img({ // changing this image will load a differnt background
     position: {
