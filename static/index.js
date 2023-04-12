@@ -282,9 +282,13 @@ class GroundEnemy extends Enemy {
 }
 
 
-
+//max cap on enemies = 10
+const maxEnemies = 10;
 // Function to spawn new enemies
 function spawnEnemies() {
+    if(enemies.length>=maxEnemies){
+        return;
+    }
     const randomX = Math.floor(Math.random() * (canvas.width - 50));
     const randomType = Math.random() > 0.5 ? 'flying' : 'ground';
 
@@ -392,6 +396,9 @@ function FPS(){
     
         // Iterate through enemies array and update each enemy
         enemies.forEach(enemy => enemy.update());
+
+        // Check for collisions between projectiles and enemies
+        detectProjectileCollisionsWithEnemies(currentWeapon.projectiles, enemies);
     
         if (
           player.position.x + player.height >= platform.position.x &&
@@ -402,10 +409,11 @@ function FPS(){
           player.velocity.y = 0;
           player.position.y = platform.position.y - player.height;
         }
-      }
+    }
     
-      window.requestAnimationFrame(FPS);
+    window.requestAnimationFrame(FPS);
 }
+
 
 window.requestAnimationFrame(FPS);
 

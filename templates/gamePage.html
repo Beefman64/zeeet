@@ -1,9 +1,13 @@
 {% extends "layout.html" %}
 {% block content %}
+<!DOCTYPE html>
+<html lang="en">
 <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Game Page</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
-
 <body>
   <div class="jumbo">
     <h2>Welcome to our games home page.<h2>
@@ -11,9 +15,9 @@
     <h4>next step is to make this look pretty</h4>
   </div>
 
-  <div class="audio-container">
-    <audio src="{{ url_for('static', filename='Jumper_theme.mp3') }}" autoplay loop controls="volume"></audio>
-  </div>
+  <audio autoplay loop>
+    <source src="{{ url_for('static', filename='Jumper_theme.mp3') }}" type="audio/mpeg">
+  </audio>
 
   <audio id="myAudio" src="{{ url_for('static', filename='jump_sfx.mp3') }}"></audio>
 
@@ -45,12 +49,12 @@
       if (event.key === 'r' || event.key === 'R') {
         resumeGame();
       }
-  
-var volumeSlider = document.getElementById('volume-slider');
-volumeSlider.addEventListener('input', function() {
-  var volume = volumeSlider.value / 100; // convert the slider value to a float between 0 and 1
-  audio.volume = volume; // set the audio element's volume property
-});
+      
+      var volumeSlider = document.getElementById('volume-slider');
+      volumeSlider.addEventListener('input', function() {
+        var volume = volumeSlider.value / 100; // convert the slider value to a float between 0 and 1
+        audio.volume = volume; // set the audio element's volume property
+      });
     });
 
     function pauseGame() {
@@ -65,7 +69,6 @@ volumeSlider.addEventListener('input', function() {
       //game resume logic in index.js file
     }
   </script>
-
 </body>
+</html>
 {% endblock %}
-
