@@ -128,3 +128,21 @@ Dillon Hughes-+
 +	-I also was going to start helping get the movements down along with the projectiles and enemys.
 +	-To just get better at communicating so this project can start picking up so we can get a good product by the end of the last sprint.
 >>>>>>> Main
+
+
+Sprint 2 Retrospective And Review:
+
+Waleed - 
+Use Photoshop to design Enemy Characters and Collectibles
++ https://cs3398s23gorns.atlassian.net/browse/JUM-15
++ https://bitbucket.org/cs3398s23gorns/gamedevswe/commits/3d805061cd361c39bf4b69a6a3b3bca569e54507
+add a triple shot weapon and fix movement
++ https://cs3398s23gorns.atlassian.net/browse/JUM-17
++ https://bitbucket.org/cs3398s23gorns/gamedevswe/commits/7fea450a901f23ae1b9acb80490ab792bec31e29
+Design and implement the game world and character
++ https://cs3398s23gorns.atlassian.net/browse/JUM-8
++ https://bitbucket.org/cs3398s23gorns/gamedevswe/commits/41c1a90ffff89293caa92553b2927b78c65fd5d0
+Sprint 3 Goals:
+1. Fix the Front Pages Formatting. 
+2. Add a Health Bar and Death Screen.
+3. Implement Flying Enemies Collision System.
