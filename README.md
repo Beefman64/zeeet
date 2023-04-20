@@ -146,3 +146,24 @@ Sprint 3 Goals:
 1. Fix the Front Pages Formatting. 
 2. Add a Health Bar and Death Screen.
 3. Implement Flying Enemies Collision System.
+
+
+Dillon-
+JUM-51: cap the number of enemies that are able to spawn, create a html5 audio tag for shooting action, gun sound added, and fix the volume slider 
+https://cs3398s23gorns.atlassian.net/jira/software/projects/JUM/issues/JUM-51
+https://bitbucket.org/cs3398s23gorns/gamedevswe/commits/ed7771b2e38c02c92dd3dac572c5ac1d4807ea93
+JUM-49: create a pause overlay. Takes away the buttons on the gamePage and puts them all there for a clean game look
+https://cs3398s23gorns.atlassian.net/jira/software/projects/JUM/issues/JUM-49
+https://bitbucket.org/cs3398s23gorns/gamedevswe/commits/70dbd163fd19f0c6ac110c1bfbe3c071852a2194
+JUM-48: create a restart button that allows you to restart the game
+https://cs3398s23gorns.atlassian.net/jira/software/projects/JUM/issues/JUM-48
+https://bitbucket.org/cs3398s23gorns/gamedevswe/commits/cb6630fd865752159428264f5038f6b5cf5988c1
+JUM-47: create a exit button on the game page to exit the game and shut down the server
+https://cs3398s23gorns.atlassian.net/jira/software/projects/JUM/issues/JUM-47
+https://bitbucket.org/cs3398s23gorns/gamedevswe/commits/733374574e0e6ded36c5636960203b71c15f3452
+Sprint 3 Goals:
+1) Add a machine gun to the wepaons list
+2) Add HTML audio tags to every different weapon, final boss, switching weapons and enemy deaths
+3) Add collisions with ground enemies to where the ground enemies cannot pass through eachother
+4) Fix bugs with the pause menu overlay
+5) Help with final boss attacks and movement

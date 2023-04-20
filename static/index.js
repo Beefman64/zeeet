@@ -9,8 +9,8 @@ canvas.height= 576
 const gravity = 0.5
 
 //sound effects for gameplay
-const jumpSfx = new Audio('static/jump_sfx.mp3');
-const jumperGunSound = new Audio('static/jumper_gun.mp3');
+const jumpSfx = new Audio('static/mp3/jump_sfx.mp3');
+const jumperGunSound = new Audio('static/mp3/jumper_gun.mp3');
 jumperGunSound.volume = 0.2;
 
 
