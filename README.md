@@ -167,3 +167,24 @@ Sprint 3 Goals:
 3) Add collisions with ground enemies to where the ground enemies cannot pass through eachother
 4) Fix bugs with the pause menu overlay
 5) Help with final boss attacks and movement
+
+
+Jess = 
+JUM-41: create a SQL database that can store the username and score of the player.
+    https://cs3398s23gorns.atlassian.net/browse/JUM-41
+    https://bitbucket.org/cs3398s23gorns/gamedevswe/commits/22e2d245d073f32669b03dab0a652a269ddbc688
+JUM-42: Connect the database with the game
+    https://cs3398s23gorns.atlassian.net/browse/JUM-42
+    https://bitbucket.org/cs3398s23gorns/gamedevswe/commits/e12953b201c54f167e3a3a34215fca99806094e5
+JUM-43: sort the highscores from the database and connect them to be displayed on the Highscores page
+    https://cs3398s23gorns.atlassian.net/browse/JUM-43
+JUM-44: change the scoring method from frame count to collectables and defeated enemies
+    https://cs3398s23gorns.atlassian.net/browse/JUM-44
+    https://bitbucket.org/cs3398s23gorns/gamedevswe/commits/c2dc25e284f601add2e1a253ebbbff244bdb36b4
+JUM-45: Change the layout and design of the webpages to better fit our games theme
+    https://cs3398s23gorns.atlassian.net/browse/JUM-45
+    https://bitbucket.org/cs3398s23gorns/gamedevswe/commits/fe751cba38eeebec983966146838f0f976e0dcbf
+Sprint 3 goals:
+    1) Get the game hosted on a website, like heroku.
+    2) Add a scrolling background to the game.
+    3) Create a random platform generator for the game.
