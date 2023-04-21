@@ -132,6 +132,33 @@ Dillon Hughes-+
 
 Sprint 2 Retrospective And Review:
 
+
+
+Oscar Lair- In this sprint I made a starter weapon that reduces the enemy's Hit points and when the hit points reach 0 the enemy "dies" and is remove from the game. I also evaluated the code from sprint 1 to see if changing the code to go with phaser would have been a good choice. We decided to keep our existig code. 
+
+Jum 53 - Evalute code from sprint one 
+Jira- https://cs3398s23gorns.atlassian.net/browse/JUM-53?focusedCommentId=10001
+bitbucket- https://bitbucket.org/cs3398s23gorns/gamedevswe/branch/rebase_code
+
+Jum 55 - Implement flying enemy 
+Jira- https://cs3398s23gorns.atlassian.net/browse/JUM-55
+bitbucket- https://bitbucket.org/%7B%7D/%7B28737a2b-5f16-4a9f-997a-4cc889a0f6e0%7D/branch/JUM-55-implement-flying-enemy
+
+Jum 56 - Implement collision with enemies
+Jira- https://cs3398s23gorns.atlassian.net/browse/JUM-56
+bitbucket- https://bitbucket.org/%7B%7D/%7B28737a2b-5f16-4a9f-997a-4cc889a0f6e0%7D/branch/JUM-56-implement-collision-with-enemies
+
+Jum 59 - create starter weapon
+Jira- https://cs3398s23gorns.atlassian.net/browse/JUM-59
+bitbucket- https://bitbucket.org/%7B%7D/%7B28737a2b-5f16-4a9f-997a-4cc889a0f6e0%7D/branch/feature/JUM-59-create-starter-weapon
+
+sprint 3 goals for me are- 
+add the big bad boss that ends the game when its is defeated
+make a new flying enemy that dives the player 
+make basic flying enemies shoot in the direction of the player 
+
+
+
 Waleed - 
 Use Photoshop to design Enemy Characters and Collectibles
 + https://cs3398s23gorns.atlassian.net/browse/JUM-15
