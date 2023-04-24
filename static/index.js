@@ -9,8 +9,8 @@ canvas.height= 576
 const gravity = 0.5
 
 //sound effects for gameplay
-const jumpSfx = new Audio('static/jump_sfx.mp3');
-const jumperGunSound = new Audio('static/jumper_gun.mp3');
+const jumpSfx = new Audio('static/mp3/jump_sfx.mp3');
+const jumperGunSound = new Audio('static/mp3/jumper_gun.mp3');
 jumperGunSound.volume = 0.2;
 
 
@@ -39,21 +39,23 @@ class img {
 
 
 class Player {
-    constructor(position, imageSrc) {
-        this.position = position;
-        this.velocity = {
-            x: 0,
-            y: 1,
-        };
-        this.width = 50;
-        this.height = 50;
-        this.image = new Image();
-        this.image.src = imageSrc;
-        this.loaded = false;
-        this.image.onload = () => {
-            this.loaded = true;
-        };
-    }
+  constructor(position, imageSrc) {
+      this.position = position;
+      this.velocity = {
+          x: 0,
+          y: 1,
+      };
+      this.width = 50;
+      this.hitPoints =20;
+      this.height = 50;
+      this.image = new Image();
+      this.image.src = imageSrc;
+      this.loaded = false;
+      this.image.onload = () => {
+          this.loaded = true;
+      };
+      this.hitPoints = 20; // Added hit points
+  }
 
     draw() {
         if (!this.loaded) return;
@@ -88,6 +90,9 @@ class Player {
             this.velocity.y = 0;
         }
     }
+    takeDamage(damage) {
+      this.hitPoints -= damage;
+  }
 }
 //weapon class that can be extended later 
 class Weapon {
@@ -238,21 +243,30 @@ class Enemy {
 
 // FlyingEnemy class, inherits from Enemy
 class FlyingEnemy extends Enemy {
-    constructor(position, imageSrc, width, height) {
-        super(position, imageSrc, width, height, /*hp*/ 1);
-        this.velocity.x = 3;
-        this.velocity.y = 0;
-    }
+  constructor(position, imageSrc, width, height) {
+      super(position, imageSrc, width, height, /*hp*/ 1);
+      this.velocity.x = 3;
+      this.velocity.y = 0;
+      this.weapon = new Weapon(4000, 1); // Added weapon with 1000 ms cooldown and 1 damage
+  }
 
-    update() {
-        super.update(); // Call the update method of the base Enemy class
-        // Reverse the horizontal direction when the enemy reaches the edge of the canvas
-        if (this.position.x <= 0 || this.position.x + this.width >= canvas.width) {
-            this.velocity.x = -this.velocity.x;
-        }
-    }
+  update() {
+      super.update(); // Call the update method of the base Enemy class
+      // Reverse the horizontal direction when the enemy reaches the edge of the canvas
+      if (this.position.x <= 0 || this.position.x + this.width >= canvas.width) {
+          this.velocity.x = -this.velocity.x;
+      }
+
+      // Shoot bullets towards the player
+      this.weapon.shoot(
+          this.position.x + this.width / 2,
+          this.position.y + this.height / 2,
+          player.position.x + player.width / 2,
+          player.position.y + player.height / 2
+      );
+      this.weapon.update(); // Update the weapon
+  }
 }
-
 // GroundEnemy class, inherits from Enemy
 class GroundEnemy extends Enemy {
     constructor(position, imageSrc, width, height) {
@@ -344,6 +358,23 @@ draw(){
     }
 }
 
+class HealthDisplay {
+  constructor(player) {
+      this.player = player;
+  }
+
+  draw() {
+      c.fillStyle = 'white';
+      c.font = '25px Georgia';
+      c.fillText('HP: ' + this.player.hitPoints, 10, 25);
+  }
+
+  update() {
+      this.draw();
+  }
+}
+
+
 const player = new Player(
     {
         x: 0,
@@ -397,7 +428,7 @@ const background = new img({ // changing this image will load a differnt backgro
     imageSrc: 'static/image/background.jpg',
 });
 
-
+const healthDisplay = new HealthDisplay(player);
 FPS.frameNo=0;
 //function updates frame by frame
 function FPS(){
@@ -405,6 +436,7 @@ function FPS(){
         c.clearRect(0, 0, canvas.width, canvas.height);
         background.update();
         timer.update();
+        healthDisplay.update(); 
         player.update();
         platform.update();
         currentWeapon.update();
@@ -508,7 +540,28 @@ canvas.addEventListener('mousedown', (event) => {
         }
       }
     }
+    for (let i = 0; i < enemies.length; i++) {
+      const enemy = enemies[i];
+  
+      if (enemy instanceof FlyingEnemy) {
+        for (let j = enemy.weapon.projectiles.length - 1; j >= 0; j--) {
+          const projectile = enemy.weapon.projectiles[j];
+  
+          if (
+            projectile.x >= player.position.x &&
+            projectile.x <= player.position.x + player.width &&
+            projectile.y >= player.position.y &&
+            projectile.y <= player.position.y + player.height
+          ) {
+            // Collision detected, apply damage to the player and remove the projectile
+            player.takeDamage(enemy.weapon.damage);
+            enemy.weapon.projectiles.splice(j, 1);
+          }
+        }
+      }
+    }
   }
+
   function handlePlayerPlatformCollision(player, platform) {
     if (
         player.position.x + player.height >= platform.position.x &&

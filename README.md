@@ -128,3 +128,90 @@ Dillon Hughes-+
 +	-I also was going to start helping get the movements down along with the projectiles and enemys.
 +	-To just get better at communicating so this project can start picking up so we can get a good product by the end of the last sprint.
 >>>>>>> Main
+
+
+Sprint 2 Retrospective And Review:
+
+
+
+Oscar Lair- In this sprint I made a starter weapon that reduces the enemy's Hit points and when the hit points reach 0 the enemy "dies" and is remove from the game. I also evaluated the code from sprint 1 to see if changing the code to go with phaser would have been a good choice. We decided to keep our existig code. 
+
+Jum 53 - Evalute code from sprint one 
+Jira- https://cs3398s23gorns.atlassian.net/browse/JUM-53?focusedCommentId=10001
+bitbucket- https://bitbucket.org/cs3398s23gorns/gamedevswe/branch/rebase_code
+
+Jum 55 - Implement flying enemy 
+Jira- https://cs3398s23gorns.atlassian.net/browse/JUM-55
+bitbucket- https://bitbucket.org/%7B%7D/%7B28737a2b-5f16-4a9f-997a-4cc889a0f6e0%7D/branch/JUM-55-implement-flying-enemy
+
+Jum 56 - Implement collision with enemies
+Jira- https://cs3398s23gorns.atlassian.net/browse/JUM-56
+bitbucket- https://bitbucket.org/%7B%7D/%7B28737a2b-5f16-4a9f-997a-4cc889a0f6e0%7D/branch/JUM-56-implement-collision-with-enemies
+
+Jum 59 - create starter weapon
+Jira- https://cs3398s23gorns.atlassian.net/browse/JUM-59
+bitbucket- https://bitbucket.org/%7B%7D/%7B28737a2b-5f16-4a9f-997a-4cc889a0f6e0%7D/branch/feature/JUM-59-create-starter-weapon
+
+sprint 3 goals for me are- 
+add the big bad boss that ends the game when its is defeated
+make a new flying enemy that dives the player 
+make basic flying enemies shoot in the direction of the player 
+
+
+
+Waleed - 
+Use Photoshop to design Enemy Characters and Collectibles
++ https://cs3398s23gorns.atlassian.net/browse/JUM-15
++ https://bitbucket.org/cs3398s23gorns/gamedevswe/commits/3d805061cd361c39bf4b69a6a3b3bca569e54507
+add a triple shot weapon and fix movement
++ https://cs3398s23gorns.atlassian.net/browse/JUM-17
++ https://bitbucket.org/cs3398s23gorns/gamedevswe/commits/7fea450a901f23ae1b9acb80490ab792bec31e29
+Design and implement the game world and character
++ https://cs3398s23gorns.atlassian.net/browse/JUM-8
++ https://bitbucket.org/cs3398s23gorns/gamedevswe/commits/41c1a90ffff89293caa92553b2927b78c65fd5d0
+Sprint 3 Goals:
+1. Fix the Front Pages Formatting. 
+2. Add a Health Bar and Death Screen.
+3. Implement Flying Enemies Collision System.
+
+
+Dillon-
+JUM-51: cap the number of enemies that are able to spawn, create a html5 audio tag for shooting action, gun sound added, and fix the volume slider 
+https://cs3398s23gorns.atlassian.net/jira/software/projects/JUM/issues/JUM-51
+https://bitbucket.org/cs3398s23gorns/gamedevswe/commits/ed7771b2e38c02c92dd3dac572c5ac1d4807ea93
+JUM-49: create a pause overlay. Takes away the buttons on the gamePage and puts them all there for a clean game look
+https://cs3398s23gorns.atlassian.net/jira/software/projects/JUM/issues/JUM-49
+https://bitbucket.org/cs3398s23gorns/gamedevswe/commits/70dbd163fd19f0c6ac110c1bfbe3c071852a2194
+JUM-48: create a restart button that allows you to restart the game
+https://cs3398s23gorns.atlassian.net/jira/software/projects/JUM/issues/JUM-48
+https://bitbucket.org/cs3398s23gorns/gamedevswe/commits/cb6630fd865752159428264f5038f6b5cf5988c1
+JUM-47: create a exit button on the game page to exit the game and shut down the server
+https://cs3398s23gorns.atlassian.net/jira/software/projects/JUM/issues/JUM-47
+https://bitbucket.org/cs3398s23gorns/gamedevswe/commits/733374574e0e6ded36c5636960203b71c15f3452
+Sprint 3 Goals:
+1) Add a machine gun to the wepaons list
+2) Add HTML audio tags to every different weapon, final boss, switching weapons and enemy deaths
+3) Add collisions with ground enemies to where the ground enemies cannot pass through eachother
+4) Fix bugs with the pause menu overlay
+5) Help with final boss attacks and movement
+
+
+Jess = 
+JUM-41: create a SQL database that can store the username and score of the player.
+    https://cs3398s23gorns.atlassian.net/browse/JUM-41
+    https://bitbucket.org/cs3398s23gorns/gamedevswe/commits/22e2d245d073f32669b03dab0a652a269ddbc688
+JUM-42: Connect the database with the game
+    https://cs3398s23gorns.atlassian.net/browse/JUM-42
+    https://bitbucket.org/cs3398s23gorns/gamedevswe/commits/e12953b201c54f167e3a3a34215fca99806094e5
+JUM-43: sort the highscores from the database and connect them to be displayed on the Highscores page
+    https://cs3398s23gorns.atlassian.net/browse/JUM-43
+JUM-44: change the scoring method from frame count to collectables and defeated enemies
+    https://cs3398s23gorns.atlassian.net/browse/JUM-44
+    https://bitbucket.org/cs3398s23gorns/gamedevswe/commits/c2dc25e284f601add2e1a253ebbbff244bdb36b4
+JUM-45: Change the layout and design of the webpages to better fit our games theme
+    https://cs3398s23gorns.atlassian.net/browse/JUM-45
+    https://bitbucket.org/cs3398s23gorns/gamedevswe/commits/fe751cba38eeebec983966146838f0f976e0dcbf
+Sprint 3 goals:
+    1) Get the game hosted on a website, like heroku.
+    2) Add a scrolling background to the game.
+    3) Create a random platform generator for the game.
