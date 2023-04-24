@@ -395,33 +395,44 @@ class backgroundClass{
     this.speed = speed;
     this.backgroundX = 0;
     }
-    draw() {
+    draw() {  
         c.clearRect(0, 0, canvas.width, canvas.height);
-        this.backgroundX -= this.speed;
+        
+        // Draw the first instance of the image
         c.drawImage(
-          this.backgroundImage,
-          this.backgroundX,
-          0,
-          canvas.width,
-          canvas.height
+            this.backgroundImage,
+            this.backgroundX,
+            0,
+            canvas.width,
+            canvas.height
         );
-      }
-update(){
-    this.draw()
-    if (this.backgroundX <= -canvas.width) {
-        this.backgroundX = 0;
-      }
+        c.drawImage(
+            this.backgroundImage,
+            this.backgroundX + canvas.width,
+            0,
+            canvas.width,
+            canvas.height
+        );
+    }    
+    update(){
+        this.draw();
+        this.backgroundX -= this.speed
+        // Wrap the background when it goes off the screen
+        if (this.backgroundX <= -this.backgroundImage.width) {
+            this.backgroundX = 0;
+        }
     }
+    
 }
 
-const backgrounder = new backgroundClass("static/image/background.jpg", 1);
+const background = new backgroundClass("static/image/background.jpg", 2);
 
 FPS.frameNo=0;
 //function updates frame by frame
 function FPS(){
     if (!isPaused) {
         c.clearRect(0, 0, canvas.width, canvas.height);
-        backgrounder.update();
+        background.update();
         timer.update();
         player.update();
         platform.update();
