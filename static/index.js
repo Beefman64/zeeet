@@ -166,6 +166,11 @@ class Weapon {
     }
   }
 
+
+  class machine_gun_weapon extends Weapon{
+
+  }
+
   document.addEventListener('keydown', function(event) {
     if (event.code === 'KeyP') {
       currentWeapon = inventory.switchWeapon(1);
@@ -262,7 +267,27 @@ class GroundEnemy extends Enemy {
         this.gravity = 0.5;
     }
 
+    checkCollisionsWithOtherGroundEnemies() {
+      for (const otherEnemy of enemies) {
+          if (otherEnemy instanceof GroundEnemy && otherEnemy !== this) {
+              const isColliding =
+                  this.position.x < otherEnemy.position.x + otherEnemy.width &&
+                  this.position.x + this.width > otherEnemy.position.x &&
+                  this.position.y < otherEnemy.position.y + otherEnemy.height &&
+                  this.position.y + this.height > otherEnemy.position.y;
+
+              if (isColliding) {
+                  return true;
+              }
+          }
+      }
+
+      return false;
+  }
+
     update() {
+        const previousPosition = { x: this.position.x, y: this.position.y };
+
         super.update(); // Call the update method of the base Enemy class
 
         // Reverse the horizontal direction when the enemy reaches the edge of the canvas
@@ -285,6 +310,10 @@ class GroundEnemy extends Enemy {
                 this.velocity.y = -10;
             }
         }
+        if (this.checkCollisionsWithOtherGroundEnemies()) {
+          this.position = previousPosition;
+          this.velocity.x = -this.velocity.x;
+      }
     }
 }
 
