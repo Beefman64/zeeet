@@ -452,14 +452,44 @@ const timer = new scoreTimer({
     y:100,
 })
 //var frameNo = 0 
+class backgroundClass{
+    constructor(imageUrl, speed){
+    this.backgroundImage = new Image();
+    this.backgroundImage.src = imageUrl;
+    this.speed = speed;
+    this.backgroundX = 0;
+    }
+    draw() {  
+        c.clearRect(0, 0, canvas.width, canvas.height);
+        
+        // Draw the first instance of the image
+        c.drawImage(
+            this.backgroundImage,
+            this.backgroundX,
+            0,
+            canvas.width,
+            canvas.height
+        );
+        c.drawImage(
+            this.backgroundImage,
+            this.backgroundX + canvas.width,
+            0,
+            canvas.width,
+            canvas.height
+        );
+    }    
+    update(){
+        this.draw();
+        this.backgroundX -= this.speed
+        // Wrap the background when it goes off the screen
+        if (this.backgroundX <= -this.backgroundImage.width) {
+            this.backgroundX = 0;
+        }
+    }
+    
+}
 
-const background = new img({ 
-    position: {
-        x: 0,
-        y: 0,
-    },
-    imageSrc: 'static/image/background.jpg',
-});
+const background = new backgroundClass("static/image/background.jpg", 2);
 
 const healthDisplay = new HealthDisplay(player);
 FPS.frameNo=0;
