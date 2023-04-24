@@ -595,25 +595,24 @@ canvas.addEventListener('mousedown', (event) => {
     }
   }
 
-  function detectEnemyPlayerCollisions(enemies, player) {
+  function detectPlayerCollisionsWithEnemies(player, enemies) {
     for (let i = 0; i < enemies.length; i++) {
       const enemy = enemies[i];
-      if (
-        enemy instanceof FlyingEnemy || // Skips desired enemy, update this for boss enemies
-        player.position.x + player.width < enemy.position.x ||
-        player.position.x > enemy.position.x + enemy.width ||
-        player.position.y + player.height < enemy.position.y ||
-        player.position.y > enemy.position.y + enemy.height
-      ) {
-        continue;
+      //update this later to include boss, using || instanceof Boss
+      if (enemy instanceof FlyingEnemy) {
+        continue; // Skip flying enemies
       }
-  
-      // Player takes 1 damage
-      player.takeDamage(1);
-  
-      // Despawn the enemy
-      enemies.splice(i, 1);
-      i--;
+      
+      if (
+        player.position.x < enemy.position.x + enemy.width &&
+        player.position.x + player.width > enemy.position.x &&
+        player.position.y < enemy.position.y + enemy.height &&
+        player.position.y + player.height > enemy.position.y
+      ) {
+        player.takeDamage(1); // Player takes 1 damage
+        enemies.splice(i, 1);  // Remove the enemy from the array
+        i--;                   // Decrement the index to account for the removed enemy
+      }
     }
   }
   
