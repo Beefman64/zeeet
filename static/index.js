@@ -302,25 +302,58 @@ class GroundEnemy extends Enemy {
     }
 }
 
+class Diver extends Enemy {
+  constructor(position, imageSrc, width, height) {
+    super(position, imageSrc, width, height, /*hp*/ 1);
+  }
+
+  followPlayer(player) {
+    const dx = player.position.x - this.position.x;
+    const dy = player.position.y - this.position.y;
+    const distance = Math.sqrt(dx * dx + dy * dy);
+
+    // Normalize the direction vector
+    const direction = {
+      x: dx / distance,
+      y: dy / distance,
+    };
+
+    // Set the velocity based on the direction and speed
+    const speed = 2;
+    this.velocity.x = direction.x * speed;
+    this.velocity.y = direction.y * speed;
+  }
+
+  update(player) {
+    this.followPlayer(player);
+    super.update();
+  }
+}
+
 
 //max cap on enemies = 5
 const maxEnemies = 5;
 // Function to spawn new enemies
 function spawnEnemies() {
-    if(enemies.length>=maxEnemies){
-        return;
-    }
-    const randomX = Math.floor(Math.random() * (canvas.width - 50));
-    const randomType = Math.random() > 0.5 ? 'flying' : 'ground';
+  if (enemies.length >= maxEnemies) {
+    return;
+  }
+  const randomX = Math.floor(Math.random() * (canvas.width - 50));
+  const enemyTypes = ['flying', 'ground', 'diver'];
+  const randomType = enemyTypes[Math.floor(Math.random() * enemyTypes.length)];
 
     if (randomType === 'flying') {
         // Limit the random y position for flying enemies to the top 25% of the canvas
         const randomY = Math.floor(Math.random() * (canvas.height * 0.25));
         enemies.push(new FlyingEnemy({ x: randomX, y: randomY }, 'static/image/flying_enemy.png'));
-    } else {
+    } else if (randomType == 'ground') {
         const randomY = Math.floor(Math.random() * (canvas.height - 50));
         enemies.push(new GroundEnemy({ x: randomX, y: randomY }, 'static/image/ground_enemy.png'));
+    } else if (randomType === 'diver') {
+      const randomY = Math.floor(Math.random() * (canvas.height * 0.25));
+      enemies.push(new Diver({ x: randomX, y: randomY }, 'static/image/diver.png', 50, 50));
     }
+
 }
 
 
@@ -380,7 +413,7 @@ const player = new Player(
         x: 0,
         y: 0,
     },
-    'static/image/player.png' // Replace this with the actual path to your player image
+    'static/image/player.png' 
 );
   
   const platform = new Platform({
@@ -420,7 +453,7 @@ const timer = new scoreTimer({
 })
 //var frameNo = 0 
 
-const background = new img({ // changing this image will load a differnt background
+const background = new img({ 
     position: {
         x: 0,
         y: 0,
@@ -442,11 +475,11 @@ function FPS(){
         currentWeapon.update();
     
         // Iterate through enemies array and update each enemy
-        enemies.forEach(enemy => enemy.update());
+        enemies.forEach(enemy => enemy.update(player));
 
         // Check for collisions between projectiles and enemies
         detectProjectileCollisionsWithEnemies(currentWeapon.projectiles, enemies);
-    
+        detectPlayerCollisionsWithEnemies(player, enemies);
         if (
           player.position.x + player.height >= platform.position.x &&
           player.position.x <= platform.position.x + platform.width &&
@@ -561,6 +594,28 @@ canvas.addEventListener('mousedown', (event) => {
       }
     }
   }
+
+  function detectPlayerCollisionsWithEnemies(player, enemies) {
+    for (let i = 0; i < enemies.length; i++) {
+      const enemy = enemies[i];
+      //update this later to include boss, using || instanceof Boss
+      if (enemy instanceof FlyingEnemy) {
+        continue; // Skip flying enemies
+      }
+      
+      if (
+        player.position.x < enemy.position.x + enemy.width &&
+        player.position.x + player.width > enemy.position.x &&
+        player.position.y < enemy.position.y + enemy.height &&
+        player.position.y + player.height > enemy.position.y
+      ) {
+        player.takeDamage(1); // Player takes 1 damage
+        enemies.splice(i, 1);  // Remove the enemy from the array
+        i--;                   // Decrement the index to account for the removed enemy
+      }
+    }
+  }
+  
 
   function handlePlayerPlatformCollision(player, platform) {
     if (
