@@ -453,39 +453,32 @@ const timer = new scoreTimer({
 })
 //var frameNo = 0 
 class backgroundClass{
-constructor(position){
-    this.background = new img({ // changing this image will load a differnt background
-        position: {
-            x: 0,
-            y: 0,
-        },
-        imageSrc: 'static/image/background.jpg',
-        })
+    constructor(imageUrl, speed){
+    this.backgroundImage = new Image();
+    this.backgroundImage.src = imageUrl;
+    this.speed = speed;
     this.backgroundX = 0;
     }
-draw(){
-    //c.drawImage(background, backgroundX, 0, canvas.width, canvas.height);
-    c.drawImage(background, backgroundX + canvas.width, 0, canvas.width, canvas.height);
-    }
+    draw() {
+        c.clearRect(0, 0, canvas.width, canvas.height);
+        this.backgroundX -= this.speed;
+        c.drawImage(
+          this.backgroundImage,
+          this.backgroundX,
+          0,
+          canvas.width,
+          canvas.height
+        );
+      }
 update(){
     this.draw()
-    backgroundX -= 1; // Adjust the value to control the scrolling speed
-    if (backgroundX < -canvas.width) {
-        backgroundX = 0;
+    if (this.backgroundX <= -canvas.width) {
+        this.backgroundX = 0;
+      }
     }
-
-const background = new img({ // changing this image will load a differnt background
-    position: {
-        x: 0,
-        y: 0,
-    },
-    imageSrc: 'static/image/background.jpg',
-});
-
 }
 
-const background = new backgroundClass(0)
-
+const backgrounder = new backgroundClass("static/image/background.jpg", 1);
 
 const healthDisplay = new HealthDisplay(player);
 FPS.frameNo=0;
@@ -493,7 +486,7 @@ FPS.frameNo=0;
 function FPS(){
     if (!isPaused) {
         c.clearRect(0, 0, canvas.width, canvas.height);
-        background.update();
+        backgrounder.update();
         timer.update();
         healthDisplay.update(); 
         player.update();
