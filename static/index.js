@@ -205,7 +205,12 @@ class Weapon {
   inventory.addWeapon(1, tripleShotWeapon);
   
   let currentWeapon = starterWeapon;
-
+  class EnemyWeapon extends Weapon {
+    constructor(damage, fireRate) {
+      super(damage, fireRate);
+    }
+  }
+  
 // Base Enemy class
 class Enemy {
     constructor(position, imageSrc, width, height, hp) {
@@ -248,11 +253,11 @@ class Enemy {
 
 // FlyingEnemy class, inherits from Enemy
 class FlyingEnemy extends Enemy {
-  constructor(position, imageSrc, width, height) {
-      super(position, imageSrc, width, height, /*hp*/ 1);
-      this.velocity.x = 3;
-      this.velocity.y = 0;
-      this.weapon = new Weapon(4000, 1); // Added weapon with 1000 ms cooldown and 1 damage
+  constructor(position, imageSrc) {
+    super(position, imageSrc, 50, 50, 5);
+    this.velocity.x = 5;
+    this.velocity.y = 0;
+    this.weapon = new EnemyWeapon(4000, 1);
   }
 
   update() {
@@ -359,12 +364,46 @@ class Diver extends Enemy {
   }
 }
 
+class BossEnemy extends Enemy {
+  constructor(position, imageSrc, width, height, hp) {
+    super(position, imageSrc, width, height, hp);
+    this.velocity.x = 2;
+    this.velocity.y = 0;
+    this.weapon = new EnemyWeapon(500, 1);
+  }
 
+  update() {
+    super.update(); 
+    if (this.position.x <= 0 || this.position.x + this.width >= canvas.width) {
+      this.velocity.x = -this.velocity.x;
+    }
+
+    // Shoot bullets towards the player
+    this.weapon.shoot(
+      this.position.x + this.width / 2,
+      this.position.y + this.height / 2,
+      player.position.x + player.width / 2,
+      player.position.y + player.height / 2
+    );
+    this.weapon.update(); // Update the weapon
+  }
+}
+
+let bossSpawned = false;
+const bossSpawnScore = 100;
 //max cap on enemies = 5
 const maxEnemies = 5;
 // Function to spawn new enemies
 function spawnEnemies() {
-  if (enemies.length >= maxEnemies) {
+  if (enemies.length >= maxEnemies || bossSpawned) {
+    return;
+  }
+
+  if (timer.score >= bossSpawnScore && !bossSpawned) {
+    // Spawn the boss enemy
+    bossSpawned = true;
+    enemies.splice(0, enemies.length); // Despawn all other enemies
+    enemies.push(new BossEnemy({ x: canvas.width / 2, y: 0 }, 'static/image/boss.png', 300, 300, 30));
     return;
   }
   const randomX = Math.floor(Math.random() * (canvas.width - 50));
@@ -549,7 +588,7 @@ function FPS(){
           player.position.y = platform.position.y - player.height;
         }
     }
-    
+        detectEnemyProjectileCollisionsWithPlayer(player, enemies);
     window.requestAnimationFrame(FPS);
 }
 
@@ -652,15 +691,37 @@ canvas.addEventListener('mousedown', (event) => {
         }
       }
     }
+    if (bossSpawned) {
+      const boss = enemies[0];
+  
+      for (let i = projectiles.length - 1; i >= 0; i--) {
+        const projectile = projectiles[i];
+        const isColliding =
+          projectile.x >= boss.position.x &&
+          projectile.x <= boss.position.x + boss.width &&
+          projectile.y >= boss.position.y &&
+          projectile.y <= boss.position.y + boss.height;
+  
+        if (isColliding) {
+          boss.takeDamage(currentWeapon.damage);
+  
+          if (boss.isDead()) {
+            enemies.splice(0, 1);
+            bossSpawned = false;
+            timer.score += 100; // Add bonus score for defeating the boss
+          }
+  
+          projectiles.splice(i, 1);
+          break;
+        }
+      }
+    }
   }
+  
 
   function detectPlayerCollisionsWithEnemies(player, enemies) {
     for (let i = 0; i < enemies.length; i++) {
       const enemy = enemies[i];
-      //update this later to include boss, using || instanceof Boss
-      if (enemy instanceof FlyingEnemy) {
-        continue; // Skip flying enemies
-      }
       
       if (
         player.position.x < enemy.position.x + enemy.width &&
@@ -674,7 +735,7 @@ canvas.addEventListener('mousedown', (event) => {
       }
     }
   }
-  
+ 
 
   function handlePlayerPlatformCollision(player, platform) {
     if (
@@ -686,6 +747,28 @@ canvas.addEventListener('mousedown', (event) => {
         player.velocity.y = 0;
         player.position.y = platform.position.y - player.height;
     }
+}
+function detectEnemyProjectileCollisionsWithPlayer(player, enemies) {
+  for (let i = 0; i < enemies.length; i++) {
+    const enemy = enemies[i];
+
+    if (enemy instanceof FlyingEnemy || enemy instanceof BossEnemy) {
+      for (let j = enemy.weapon.projectiles.length - 1; j >= 0; j--) {
+        const projectile = enemy.weapon.projectiles[j];
+
+        if (
+          projectile.x >= player.position.x &&
+          projectile.x <= player.position.x + player.width &&
+          projectile.y >= player.position.y &&
+          projectile.y <= player.position.y + player.height
+        ) {
+          // Collision detected, apply damage to the player and remove the projectile
+          player.takeDamage(enemy.weapon.damage);
+          enemy.weapon.projectiles.splice(j, 1);
+        }
+      }
+    }
+  }
 }
 
 //toggle pause function 
