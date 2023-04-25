@@ -172,9 +172,77 @@ class Weapon {
   }
 
 
-  class machine_gun_weapon extends Weapon{
 
+  class MachineGun extends Weapon {
+    constructor(cooldown, damage) {
+      super(cooldown, damage);
+      this.isShooting = false;
+    }
+  
+    startShooting(startX, startY, targetX, targetY) {
+      this.isShooting = true;
+      this.shootContinuously(startX, startY, targetX, targetY);
+    }
+  
+    stopShooting() {
+      this.isShooting = false;
+    }
+  
+    shootContinuously(playerX, playerY, targetX, targetY) {
+      if (!this.isShooting) {
+        return;
+      }
+      const weaponStartX = playerX + weaponOffset.x;
+      const weaponStartY = playerY + weaponOffset.y;
+      this.shoot(weaponStartX, weaponStartY, targetX, targetY);
+      setTimeout(() => this.shootContinuously(playerX, playerY, targetX, targetY), this.cooldown);
+    }
+    
+    shoot(startX, startY, targetX, targetY) {
+      const currentTime = Date.now();
+      if (currentTime - this.lastShot < this.cooldown) {
+        return;
+      }
+      this.lastShot = currentTime;
+  
+      const dx = targetX - startX;
+      const dy = targetY - startY;
+      const angle = Math.atan2(dy, dx);
+      const velocity = {
+        x: Math.cos(angle) * 5, // Reduce the multiplier from 10 to 5
+        y: Math.sin(angle) * 5, // Reduce the multiplier from 10 to 5
+      };
+  
+      this.projectiles.push({ x: startX, y: startY, velocity });
+    }
   }
+  
+  class Sniper extends Weapon {
+    constructor(cooldown, damage) {
+      super(cooldown, damage);
+    }
+  
+    shoot(startX, startY, targetX, targetY) {
+      const currentTime = Date.now();
+      if (currentTime - this.lastShot < this.cooldown) {
+        return; // Don't shoot if the cooldown hasn't expired
+      }
+      this.lastShot = currentTime;
+  
+      const dx = targetX - startX;
+      const dy = targetY - startY;
+      const angle = Math.atan2(dy, dx);
+  
+      const sniperProjectileSpeed = 20; // Faster projectiles for the sniper
+      const velocity = {
+        x: Math.cos(angle) * sniperProjectileSpeed,
+        y: Math.sin(angle) * sniperProjectileSpeed,
+      };
+  
+      this.projectiles.push({ x: startX, y: startY, velocity });
+    }
+  }
+  
 
   document.addEventListener('keydown', function(event) {
     if (event.code === 'KeyP') {
@@ -201,8 +269,12 @@ class Weapon {
   const inventory = new Inventory();
   const starterWeapon = new Weapon(500, 1);
   const tripleShotWeapon = new TripleShotWeapon(1000, 1); // 1000 ms cooldown between shots with 1 damage and 3 projectiles
+  const machineGun = new MachineGun(0, 1)
+  const sniper = new Sniper(1000, 10)
   inventory.addWeapon(0, starterWeapon);
   inventory.addWeapon(1, tripleShotWeapon);
+  inventory.addWeapon(2, machineGun)
+  inventory.addWeapon(3, sniper)
   
   let currentWeapon = starterWeapon;
 
